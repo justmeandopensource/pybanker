@@ -8,12 +8,14 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.support.v4.widget.DrawerLayout
 import android.support.design.widget.NavigationView
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 
 class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var frgDashboard: FrgDashboard
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +23,6 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.btn_float_add)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -35,6 +32,14 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+
+        frgDashboard = FrgDashboard()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frame_layout_main, frgDashboard)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
+
     }
 
     override fun onBackPressed() {
@@ -42,7 +47,7 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-                super.finish()
+                super.onBackPressed()
         }
     }
 
@@ -62,7 +67,8 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         }
     }
 
-    fun displayFragments(id: Int) {
+
+    private fun displayFragments(id: Int) {
         val fragment = when (id) {
             R.id.nav_dashboard -> {
                 FrgDashboard()
@@ -70,24 +76,24 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.nav_accounts -> {
                 FrgAccounts()
             }
-/*            R.id.nav_add_transaction -> {
-
+            R.id.nav_add_transaction -> {
+                FrgAddTran()
             }
             R.id.nav_transfer_funds -> {
-
+                FrgTransferFunds()
             }
             R.id.nav_search -> {
-
+                FrgSearch()
             }
             R.id.nav_inextrend -> {
-
+                FrgInExTrend()
             }
             R.id.nav_category_stats -> {
-
+                FrgCategoryStats()
             }
             R.id.nav_year_glance -> {
-
-            }*/
+                FrgYearGlance()
+            }
             else -> {
                 FrgDashboard()
             }
@@ -95,7 +101,7 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.maincontent, fragment)
+            .replace(R.id.frame_layout_main, fragment)
             .commit()
     }
 

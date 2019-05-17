@@ -10,9 +10,10 @@
         tools:context=".Act02NavDrawer">
 
 
-    <RelativeLayout
-            android:id="@+id/maincontent"
+    <FrameLayout
+            android:id="@+id/frame_layout_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/nav_dashboard"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@drawable/ic_action_dashboard"
                 android:title="Dashboard"/>
         <item
                 android:id="@+id/nav_accounts"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/ic_action_accounts"
                 android:title="Accounts"/>
 
     </group>
@@ -19,15 +19,15 @@
         <menu>
             <item
                     android:id="@+id/nav_add_transaction"
-                    android:icon="@drawable/ic_menu_share"
+                    android:icon="@drawable/ic_action_add"
                     android:title="New Income/Expense"/>
             <item
                     android:id="@+id/nav_transfer_funds"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_action_trasnfer_funds"
                     android:title="Transfer Funds"/>
             <item
                     android:id="@+id/nav_search"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_action_search"
                     android:title="Search"/>
         </menu>
     </item>
@@ -36,15 +36,15 @@
         <menu>
             <item
                     android:id="@+id/nav_inextrend"
-                    android:icon="@drawable/ic_menu_share"
+                    android:icon="@drawable/ic_action_inextrend"
                     android:title="Income/Expense Trend"/>
             <item
                     android:id="@+id/nav_category_stats"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_action_category_stats"
                     android:title="Category Statistics"/>
             <item
                     android:id="@+id/nav_year_glance"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_action_year_glance"
                     android:title="Year at a Glance"/>
         </menu>
     </item>
