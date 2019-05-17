@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_dashboard"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Dashboard"/>
+        <item
+                android:id="@+id/nav_accounts"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Accounts"/>
+
+    </group>
+
+    <item android:title="Transactions">
+        <menu>
+            <item
+                    android:id="@+id/nav_add_transaction"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="New Income/Expense"/>
+            <item
+                    android:id="@+id/nav_transfer_funds"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Transfer Funds"/>
+            <item
+                    android:id="@+id/nav_search"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Search"/>
+        </menu>
+    </item>
+
+    <item android:title="Reports">
+        <menu>
+            <item
+                    android:id="@+id/nav_inextrend"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Income/Expense Trend"/>
+            <item
+                    android:id="@+id/nav_category_stats"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Category Statistics"/>
+            <item
+                    android:id="@+id/nav_year_glance"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Year at a Glance"/>
+        </menu>
+    </item>
+
+</menu>
