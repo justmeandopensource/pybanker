@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20sp"
+    tools:context=".FrgAddAccount">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add a New Account"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/AddAccETAccountName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Account Name"
+        android:inputType="text"
+        android:singleLine="true"
+        android:layout_marginTop="20sp"
+        />
+
+    <EditText
+        android:id="@+id/AddAccETBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Initial Balance (0.00)"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:layout_marginTop="20sp"
+        />
+
+    <Switch
+        android:id="@+id/AddAccExclude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eclude from stats   "
+        android:gravity="start"
+        android:layout_marginTop="20sp"
+        />
+
+    <RadioGroup
+        android:id="@+id/AddAccType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Type"
+            android:textSize="18sp"/>
+
+        <RadioButton
+            android:id="@+id/AddAccTypeAsset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asset"
+            />
+
+        <RadioButton
+            android:id="@+id/AddAccTypeLiability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Liability"
+            />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/AddAccSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Account"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20sp"
+        />
+
+</LinearLayout>

@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingTop="80sp"
     tools:context=".FrgDashboard">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/testTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dashboard under construction"
-        android:textSize="25sp"
-        android:gravity="center"
         android:layout_centerInParent="true"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="Dashboard under construction"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/testID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check Database"
+        android:layout_marginTop="20sp"
         />
 
-</RelativeLayout>
+</LinearLayout>
