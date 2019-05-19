@@ -2,12 +2,12 @@ package com.example.pybanker
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import java.util.*
 
 
-class DBHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
@@ -43,6 +43,13 @@ class DBHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         contentvalues.put("excludetotal", excludetotal)
         contentvalues.put("type", type)
         db.insert("accounts", null, contentvalues)
+    }
+
+    val getAccounts:Cursor
+    get() {
+        val db = this.writableDatabase
+        val result = db.rawQuery("SELECT * FROM accounts", null)
+        return result
     }
 
 }

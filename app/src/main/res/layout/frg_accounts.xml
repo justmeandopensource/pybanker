@@ -7,14 +7,12 @@
     android:gravity="center_horizontal"
     tools:context=".FrgDashboard">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Accounts under construction"
         android:textSize="25sp"
         android:gravity="center"
-        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         />
 
@@ -23,6 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Account"
+        android:layout_marginTop="20sp"
+        />
+
+    <Button
+        android:id="@+id/btnShowAccounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Accounts"
         android:layout_marginTop="20sp"
         />
 

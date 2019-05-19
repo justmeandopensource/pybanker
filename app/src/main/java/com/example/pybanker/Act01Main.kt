@@ -13,10 +13,12 @@ class Act01Main : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnLogin.setOnClickListener {
-            if (etAccessKey.text.toString() == "8989") { // todo Get access key from Database and don't hardcode
+            if (etAccessCode.text.toString() == "8989") { // todo Get access key from Database and don't hardcode
                 val intent = Intent(this, Act02NavDrawer::class.java)
                 startActivity(intent)
+                finish()
             } else {
+                etAccessCode.setText("")
                 Toast.makeText(this, "Invalid Access Key", Toast.LENGTH_SHORT).show()
             }
         }

@@ -1,25 +1,30 @@
 package com.example.pybanker
 
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.frg_accounts.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
  *
  */
 class FrgAccounts : Fragment() {
+
+    internal var dbhelper: DBHelper? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        dbhelper = DBHelper(activity)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +36,7 @@ class FrgAccounts : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         btnAddAccount.setOnClickListener{
             val fragment = FrgAddAccount()
             fragmentManager
@@ -38,6 +44,32 @@ class FrgAccounts : Fragment() {
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 ?.commit()
         }
+
+        btnShowAccounts.setOnClickListener{
+            val res = dbhelper?.getAccounts
+            if (res?.count == 0) {
+                Toast.makeText(activity, "No Accounts found!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val buffer = StringBuffer()
+            while (res!!.moveToNext()){
+                buffer.append("Name: " + res.getString(0) + "\n")
+                buffer.append("Balance: " + res.getString(1) + "\n")
+                buffer.append("Last Operated: " + res.getString(2) + "\n")
+                buffer.append("Exclude from Stats: " + res.getString(3) + "\n")
+                buffer.append("Type: " + res.getString(4) + "\n")
+            }
+            showDialog("List of Accounts", buffer.toString())
+        }
+
+    }
+
+    fun showDialog(title:String, message:String) {
+        val builder = AlertDialog.Builder(activity)
+        builder.setCancelable(true)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.show()
     }
 
 }
