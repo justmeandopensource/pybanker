@@ -4,6 +4,7 @@ package com.example.pybanker
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +41,7 @@ class FrgAddAccount : Fragment() {
             val name = AddAccETAccountName.text.toString()
             val balance = AddAccETBalance.text.toString().toFloat()
             val excludetotal = if (AddAccExclude.isChecked) "yes" else "no"
-            val type = if (AddAccType.checkedRadioButtonId.toString() == "Asset") "A" else "L"
+            val type = if (AddAccTypeAsset.isChecked) "A" else "L"
 
             try {
                 dbhelper?.addAccount(name, balance, excludetotal, type)
