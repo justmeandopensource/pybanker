@@ -26,7 +26,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS accounts")
+
     }
 
     companion object {
