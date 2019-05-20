@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context=".FrgDashboard">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_accounts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Accounts under construction"
-        android:textSize="25sp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
         />
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnAddAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Account"
-        android:layout_marginTop="20sp"
-        />
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="20sp"
+        android:foreground="@drawable/ic_action_add"
+        android:foregroundTint="#FFFFFF"
+        app:backgroundTint="#008577"
+        app:fabSize="normal" />
 
-    <Button
-        android:id="@+id/btnShowAccounts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show Accounts"
-        android:layout_marginTop="20sp"
-        />
-
-</LinearLayout>
+</FrameLayout>

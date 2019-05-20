@@ -1,11 +1,12 @@
 package com.example.pybanker
 
 
-import android.database.sqlite.SQLiteDatabase
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,9 @@ import java.lang.Exception
 class FrgSettings : Fragment() {
 
     val externalStorageDir = Environment.getExternalStorageDirectory().toString() + "/pybanker/"
-    val backupFile = externalStorageDir + "pybanker.db"
+    val backupFile = externalStorageDir + "pybanker-dump.db"
+    val importFile = externalStorageDir + "pybanker.db"
+    var selectedFile: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +53,16 @@ class FrgSettings : Fragment() {
     }
 
     fun importDBFromExtStorage() {
-        try {
-            val inputFile = File(backupFile)
+
+        val intent = Intent()
+            .setType("*/*")
+            .setAction(Intent.ACTION_GET_CONTENT)
+
+        startActivityForResult(intent, 111)
+        Toast.makeText(context, selectedFile?.path, Toast.LENGTH_LONG).show()
+
+        /*try {
+            val inputFile = File(importFile)
             val inputStream = FileInputStream(inputFile)
             val outputFile = File(context!!.getDatabasePath(DATABASE_NAME).canonicalPath)
             val outputStream = FileOutputStream(outputFile)
@@ -60,10 +71,10 @@ class FrgSettings : Fragment() {
             inputStream.close()
             outputStream.flush()
             outputStream.close()
-            Toast.makeText(context, "Database imported", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Database imported successfully", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
-        }
+        }*/
     }
 
     fun backupDBToExtStorage() {
@@ -71,39 +82,28 @@ class FrgSettings : Fragment() {
             File(backupFile).delete()
         }
         try {
-
-            val sd = File(Environment.getExternalStorageDirectory().absolutePath)
-            val data = File(Environment.getDataDirectory().absolutePath)
-
-            if (sd.canWrite()) {
-                val currentDBPath = "//data//com.example.pybanker//databases//pybanker"
-                val backupDBPath = "pybanker.db"
-                val currentDB = File(data, currentDBPath)
-                val backupDB = File(sd, backupDBPath)
-
-                if (currentDB.exists()) {
-                    val src = FileInputStream(currentDB).channel
-                    val dst = FileOutputStream(backupDB).channel
-                    dst.transferFrom(src, 0, src.size())
-                    src.close()
-                    dst.close()
-                }
-                Toast.makeText(context, "Database exported", Toast.LENGTH_SHORT).show()
-            }
-            /*
-
             val outputFile = File(backupFile)
             val outputStream = FileOutputStream(outputFile)
-            val inputFile = File(context!!.getDatabasePath(DATABASE_NAME).canonicalPath)
+            val inputFile = context!!.getDatabasePath(DATABASE_NAME).absoluteFile
             val inputStream = FileInputStream(inputFile)
 
             inputStream.copyTo(outputStream)
             inputStream.close()
             outputStream.flush()
-            outputStream.close() */
-
+            outputStream.close()
+            Toast.makeText(context, "Database exported to /pybanker/pybanker-dump.db in external storage",
+                Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 111 && resultCode == RESULT_OK) {
+            this.selectedFile = data?.data //The uri with the location of the file
         }
     }
 

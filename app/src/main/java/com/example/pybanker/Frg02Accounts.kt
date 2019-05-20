@@ -45,23 +45,6 @@ class FrgAccounts : Fragment() {
                 ?.commit()
         }
 
-        btnShowAccounts.setOnClickListener{
-            val res = dbhelper?.getAccounts
-            if (res?.count == 0) {
-                Toast.makeText(activity, "No Accounts found!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val buffer = StringBuffer()
-            while (res!!.moveToNext()){
-                buffer.append("Name: " + res.getString(0) + "\n")
-                buffer.append("Balance: " + res.getString(1) + "\n")
-                buffer.append("Last Operated: " + res.getString(2) + "\n")
-                buffer.append("Exclude from Stats: " + res.getString(3) + "\n")
-                buffer.append("Type: " + res.getString(4) + "\n")
-            }
-            showDialog("List of Accounts", buffer.toString())
-        }
-
     }
 
     private fun showDialog(title:String, message:String) {

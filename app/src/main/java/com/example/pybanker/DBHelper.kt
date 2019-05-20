@@ -5,9 +5,15 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 
 class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+
+    override fun onOpen(db: SQLiteDatabase?) {
+        db!!.disableWriteAheadLogging()
+        super.onOpen(db)
+    }
 
     override fun onCreate(db: SQLiteDatabase) {
 
@@ -20,7 +26,6 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
                 "type TEXT NOT NULL," +
                 "PRIMARY KEY(name)" +
                 ")"
-
         db.execSQL(accountsTblCreationQuery)
 
     }
@@ -47,7 +52,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     val getAccounts:Cursor
     get() {
         val db = this.writableDatabase
-        return db.rawQuery("SELECT * FROM accounts", null)
+        return db.rawQuery("SELECT name FROM accounts", null)
     }
 
 }
