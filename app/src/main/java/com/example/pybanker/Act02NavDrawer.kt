@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
-import android.widget.Toast
-import kotlinx.android.synthetic.main.frg_add_account.*
 
 class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 

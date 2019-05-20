@@ -11,7 +11,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        val accountsTblCreationQuery = "CREATE TABLE accounts " +
+        val accountsTblCreationQuery = "CREATE TABLE IF NOT EXISTS accounts " +
                 "(" +
                 "name TEXT NOT NULL," +
                 "balance REAL NOT NULL," +
@@ -31,7 +31,6 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
 
     companion object {
         const val DATABASE_NAME = "pybanker"
-        const val DATABASE_VERSION = 1
     }
 
     fun addAccount(name:String, balance:Float, excludetotal:String, type:String) {
@@ -48,8 +47,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     val getAccounts:Cursor
     get() {
         val db = this.writableDatabase
-        val result = db.rawQuery("SELECT * FROM accounts", null)
-        return result
+        return db.rawQuery("SELECT * FROM accounts", null)
     }
 
 }

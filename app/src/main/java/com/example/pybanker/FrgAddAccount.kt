@@ -4,7 +4,6 @@ package com.example.pybanker
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.frg_add_account.*
  */
 class FrgAddAccount : Fragment() {
 
-    internal var dbhelper: DBHelper? = null
+    private var dbhelper: DBHelper? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -29,9 +28,7 @@ class FrgAddAccount : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.frg_add_account, container, false)
-        return view
+        return inflater.inflate(R.layout.frg_add_account, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.frg_accounts.*
  */
 class FrgAccounts : Fragment() {
 
-    internal var dbhelper: DBHelper? = null
+    private var dbhelper: DBHelper? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -64,7 +64,7 @@ class FrgAccounts : Fragment() {
 
     }
 
-    fun showDialog(title:String, message:String) {
+    private fun showDialog(title:String, message:String) {
         val builder = AlertDialog.Builder(activity)
         builder.setCancelable(true)
         builder.setTitle(title)
