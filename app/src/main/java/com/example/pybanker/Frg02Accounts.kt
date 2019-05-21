@@ -1,16 +1,15 @@
 package com.example.pybanker
 
-
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import kotlinx.android.synthetic.main.frg_accounts.*
+import java.lang.Exception
 
 
 /**
@@ -30,7 +29,6 @@ class FrgAccounts : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frg_accounts, container, false)
     }
 
@@ -44,15 +42,30 @@ class FrgAccounts : Fragment() {
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 ?.commit()
         }
-
     }
 
-    private fun showDialog(title:String, message:String) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setCancelable(true)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        builder.show()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        val accounts  = ArrayList<Account>()
+
+        val res = dbhelper?.getAccounts
+
+        try {
+            while (res!!.moveToNext()) {
+                accounts.add(Account(res.getString(0),
+                    "£" + res.getString(1),
+                    res.getString(2)))
+            }
+        } catch (e: Exception) {
+
+        }
+
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        rv_accounts.layoutManager = layoutManager
+        rv_accounts.adapter = AccountsAdapter(context, accounts)
+        super.onActivityCreated(savedInstanceState)
     }
+
+    data class Account(var accountName: String, var lastOperated: String, var balance: String)
 
 }

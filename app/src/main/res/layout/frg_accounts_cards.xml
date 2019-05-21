@@ -3,25 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
-    app:cardCornerRadius="5dp">
+    android:layout_marginHorizontal="10sp"
+    android:layout_marginVertical="4sp"
+    app:cardCornerRadius="5dp"
+    android:id="@+id/accounts_card_view"
+    app:cardMaxElevation="1dp"
+    app:cardElevation="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:orientation="vertical"
+        android:layout_margin="5sp"
+        >
 
-        <TextView
-            android:id="@+id/tv_accounts_list"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_margin="5dp"
-            />
+            android:layout_marginHorizontal="5sp">
+
+            <TextView
+                android:id="@+id/tv_account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5sp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Operated"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_account_lastoperated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2019-05-21"
+                    android:layout_marginStart="10sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <TextView
+                    android:id="@+id/tv_account_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="£ 300.00"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

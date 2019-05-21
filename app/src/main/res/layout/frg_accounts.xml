@@ -21,9 +21,10 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="20sp"
         android:layout_marginBottom="20sp"
-        android:foreground="@drawable/ic_action_add"
-        android:foregroundTint="#FFFFFF"
-        app:backgroundTint="#008577"
-        app:fabSize="normal" />
+        android:foregroundTint="#F5F2F2"
+        android:src="@drawable/ic_action_add"
+        app:backgroundTint="#1CB8A9"
+        app:fabSize="normal"
+        app:rippleColor="#00FFFDFD" />
 
 </FrameLayout>

@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 
 
 class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -17,7 +16,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        val accountsTblCreationQuery = "CREATE TABLE IF NOT EXISTS accounts " +
+        val accountsTblCreationQuery = "CREATE TABLE IF NOT EXISTS Accounts " +
                 "(" +
                 "name TEXT NOT NULL," +
                 "balance REAL NOT NULL," +
@@ -46,13 +45,13 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         contentvalues.put("lastoperated", "2019-05-18")
         contentvalues.put("excludetotal", excludetotal)
         contentvalues.put("type", type)
-        db.insert("accounts", null, contentvalues)
+        db.insert("Accounts", null, contentvalues)
     }
 
     val getAccounts:Cursor
     get() {
         val db = this.writableDatabase
-        return db.rawQuery("SELECT name FROM accounts", null)
+        return db.rawQuery("SELECT name, lastoperated, balance FROM Accounts", null)
     }
 
 }

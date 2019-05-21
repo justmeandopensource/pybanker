@@ -53,15 +53,7 @@ class FrgSettings : Fragment() {
     }
 
     fun importDBFromExtStorage() {
-
-        val intent = Intent()
-            .setType("*/*")
-            .setAction(Intent.ACTION_GET_CONTENT)
-
-        startActivityForResult(intent, 111)
-        Toast.makeText(context, selectedFile?.path, Toast.LENGTH_LONG).show()
-
-        /*try {
+        try {
             val inputFile = File(importFile)
             val inputStream = FileInputStream(inputFile)
             val outputFile = File(context!!.getDatabasePath(DATABASE_NAME).canonicalPath)
@@ -74,7 +66,7 @@ class FrgSettings : Fragment() {
             Toast.makeText(context, "Database imported successfully", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
-        }*/
+        }
     }
 
     fun backupDBToExtStorage() {
