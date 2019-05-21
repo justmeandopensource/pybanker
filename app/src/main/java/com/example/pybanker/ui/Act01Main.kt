@@ -1,4 +1,4 @@
-package com.example.pybanker
+package com.example.pybanker.ui
 
 import android.Manifest
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.widget.Toast
+import com.example.pybanker.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class Act01Main : AppCompatActivity() {

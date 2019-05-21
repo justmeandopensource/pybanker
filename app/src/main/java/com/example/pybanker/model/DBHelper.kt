@@ -1,4 +1,4 @@
-package com.example.pybanker
+package com.example.pybanker.model
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 
-class DBHelper(val context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
+    DATABASE_NAME, null, 1) {
 
     override fun onOpen(db: SQLiteDatabase?) {
         db!!.disableWriteAheadLogging()

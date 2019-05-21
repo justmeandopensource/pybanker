@@ -1,4 +1,4 @@
-package com.example.pybanker
+package com.example.pybanker.model
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.pybanker.R
+import com.example.pybanker.ui.fragments.FrgAccounts
 import kotlinx.android.synthetic.main.frg_accounts_cards.view.*
 
 class AccountsAdapter(val context: Context?, val Accounts: ArrayList<FrgAccounts.Account>) : RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {

@@ -1,4 +1,4 @@
-package com.example.pybanker
+package com.example.pybanker.ui
 
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import com.example.pybanker.R
+import com.example.pybanker.ui.fragments.*
 
 class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -24,7 +26,9 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()

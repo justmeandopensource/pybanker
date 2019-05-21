@@ -1,4 +1,4 @@
-package com.example.pybanker
+package com.example.pybanker.ui.fragments
 
 
 import android.app.Activity.RESULT_OK
@@ -12,7 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.example.pybanker.DBHelper.Companion.DATABASE_NAME
+import com.example.pybanker.model.DBHelper.Companion.DATABASE_NAME
+import com.example.pybanker.R
 import kotlinx.android.synthetic.main.frg_settings.*
 import java.io.*
 import java.lang.Exception

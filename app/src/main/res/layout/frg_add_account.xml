@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20sp"
-    tools:context=".FrgAddAccount">
+    tools:context=".ui.fragments.FrgAddAccount">
 
     <TextView
         android:layout_width="match_parent"

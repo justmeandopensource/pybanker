@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".FrgDashboard">
+    tools:context=".ui.fragments.FrgDashboard">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_accounts"

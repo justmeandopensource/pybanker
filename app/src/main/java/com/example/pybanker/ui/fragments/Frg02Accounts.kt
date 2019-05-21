@@ -1,4 +1,4 @@
-package com.example.pybanker
+package com.example.pybanker.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.pybanker.model.AccountsAdapter
+import com.example.pybanker.model.DBHelper
+import com.example.pybanker.R
 import kotlinx.android.synthetic.main.frg_accounts.*
 import java.lang.Exception
 
@@ -51,9 +54,13 @@ class FrgAccounts : Fragment() {
 
         try {
             while (res!!.moveToNext()) {
-                accounts.add(Account(res.getString(0),
-                    "£" + res.getString(1),
-                    res.getString(2)))
+                accounts.add(
+                    Account(
+                        res.getString(0),
+                        "£" + res.getString(1),
+                        res.getString(2)
+                    )
+                )
             }
         } catch (e: Exception) {
 
