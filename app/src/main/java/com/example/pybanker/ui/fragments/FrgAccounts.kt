@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.pybanker.model.AccountsAdapter
 import com.example.pybanker.model.DBHelper
 import com.example.pybanker.R
@@ -64,7 +65,7 @@ class FrgAccounts : Fragment() {
                 )
             }
         } catch (e: Exception) {
-
+            Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
         }
 
         val layoutManager = LinearLayoutManager(activity)

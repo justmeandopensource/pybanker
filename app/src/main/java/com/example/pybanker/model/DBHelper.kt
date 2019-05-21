@@ -43,7 +43,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         val contentvalues = ContentValues()
         contentvalues.put("name",name)
         contentvalues.put("balance", balance)
-        contentvalues.put("lastoperated", "2019-05-18")
+        contentvalues.put("lastoperated", java.time.LocalDate.now().toString())
         contentvalues.put("excludetotal", excludetotal)
         contentvalues.put("type", type)
         db.insert("Accounts", null, contentvalues)
@@ -52,7 +52,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
     val getAccounts:Cursor
     get() {
         val db = this.writableDatabase
-        return db.rawQuery("SELECT name, lastoperated, balance FROM Accounts", null)
+        return db.rawQuery("SELECT name, lastoperated, printf('%.2f', balance) as balance FROM Accounts", null)
     }
 
 }
