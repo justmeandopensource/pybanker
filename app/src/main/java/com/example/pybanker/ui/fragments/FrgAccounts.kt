@@ -43,6 +43,7 @@ class FrgAccounts : Fragment() {
             fragmentManager
                 ?.beginTransaction()?.replace(R.id.frame_layout_main, fragment)
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                ?.addToBackStack(null)
                 ?.commit()
         }
     }

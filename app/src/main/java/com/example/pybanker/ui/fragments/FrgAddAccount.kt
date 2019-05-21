@@ -4,7 +4,6 @@ package com.example.pybanker.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +61,7 @@ class FrgAddAccount : Fragment() {
                 activity!!.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout_main, frgAccounts)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .addToBackStack(null)
                     .commit()
             }
         }
