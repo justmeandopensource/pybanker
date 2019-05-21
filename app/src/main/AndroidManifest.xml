@@ -12,11 +12,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".ui.Act02NavDrawer"
+                android:name=".ui.ActNavDrawer"
                 android:label="@string/title_activity_nav_drawer"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".ui.Act01Main">
+        <activity android:name=".ui.ActMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

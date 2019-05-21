@@ -57,8 +57,8 @@ class FrgAccounts : Fragment() {
                 accounts.add(
                     Account(
                         res.getString(0),
-                        "£" + res.getString(1),
-                        res.getString(2)
+                        res.getString(1),
+                        "£" + res.getString(2)
                     )
                 )
             }

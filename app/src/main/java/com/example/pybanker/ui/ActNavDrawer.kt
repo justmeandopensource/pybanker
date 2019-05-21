@@ -13,7 +13,7 @@ import android.view.Menu
 import com.example.pybanker.R
 import com.example.pybanker.ui.fragments.*
 
-class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var frgDashboard: FrgDashboard
 
@@ -49,7 +49,7 @@ class Act02NavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-                super.onBackPressed()
+            super.onBackPressed()
         }
     }
 

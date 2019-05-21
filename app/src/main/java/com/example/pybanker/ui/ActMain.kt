@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.example.pybanker.R
 import kotlinx.android.synthetic.main.activity_main.*
 
-class Act01Main : AppCompatActivity() {
+class ActMain : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class Act01Main : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             if (etAccessCode.text.toString() == "8989") { // todo Get access key from Database and don't hardcode
-                val intent = Intent(this, Act02NavDrawer::class.java)
+                val intent = Intent(this, ActNavDrawer::class.java)
                 startActivity(intent)
                 finish()
             } else {

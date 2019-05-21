@@ -4,6 +4,7 @@ package com.example.pybanker.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,18 +38,32 @@ class FrgAddAccount : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         AddAccSubmit.setOnClickListener{
 
-            val name = AddAccETAccountName.text.toString()
-            val balance = AddAccETBalance.text.toString().toFloat()
+            val name = AddAccETAccountName?.text.toString()
+            var balance = AddAccETBalance?.text.toString()
             val excludetotal = if (AddAccExclude.isChecked) "yes" else "no"
             val type = if (AddAccTypeAsset.isChecked) "A" else "L"
 
+            if (name.isEmpty()) {
+                AddAccETAccountName.error = "Name Required"
+                return@setOnClickListener
+            }
+            if (balance.isEmpty()) {
+                balance = "0.00"
+            }
             try {
-                dbhelper?.addAccount(name, balance, excludetotal, type)
-                Toast.makeText(activity,"Account added successfully", Toast.LENGTH_SHORT).show()
+                dbhelper?.addAccount(name, balance.toFloat(), excludetotal, type)
+                Toast.makeText(activity, "Account added successfully", Toast.LENGTH_SHORT).show()
                 clearForm()
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(activity, e.message.toString(), Toast.LENGTH_SHORT).show()
+            } finally {
+                val frgAccounts = FrgAccounts()
+                activity!!.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame_layout_main, frgAccounts)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
             }
         }
     }
