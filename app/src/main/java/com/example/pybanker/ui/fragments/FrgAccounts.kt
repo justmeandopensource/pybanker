@@ -44,7 +44,6 @@ class FrgAccounts : Fragment() {
             fragmentManager
                 ?.beginTransaction()?.replace(R.id.frame_layout_main, fragment)
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ?.addToBackStack(null)
                 ?.commit()
         }
     }
@@ -71,7 +70,7 @@ class FrgAccounts : Fragment() {
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_accounts.layoutManager = layoutManager
-        rv_accounts.adapter = AccountsAdapter(context, accounts)
+        rv_accounts.adapter = AccountsAdapter(context, accounts, this.fragmentManager)
         super.onActivityCreated(savedInstanceState)
     }
 

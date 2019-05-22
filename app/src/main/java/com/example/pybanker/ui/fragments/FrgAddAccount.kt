@@ -61,7 +61,6 @@ class FrgAddAccount : Fragment() {
                 activity!!.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout_main, frgAccounts)
-                    .addToBackStack(null)
                     .commit()
             }
         }

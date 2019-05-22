@@ -62,7 +62,6 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout_main, FrgSettings())
-            .addToBackStack(null)
             .commit()
         return true
     }
@@ -102,7 +101,6 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout_main, fragment)
-            .addToBackStack(null)
             .commit()
     }
 
