@@ -2,6 +2,7 @@ package com.example.pybanker.ui.fragments
 
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -37,23 +38,23 @@ class FrgAccountDetails : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
         val accountTransactions  = ArrayList<AccountTransaction>()
-        val res = dbhelper?.getAccountLast20(arguments?.getString("accountName"))
+        val res = dbhelper?.getAccountLast25(arguments?.getString("accountName"))
 
         try {
             while (res!!.moveToNext()) {
-                var credit = res.getString(3)
-                var debit = res.getString(4)
+                val credit = res.getString(3)
+                val debit = res.getString(4)
 
-                credit = if (credit.isNullOrEmpty() || credit == "0.00") {
-                    ""
+                val amount = if (credit.isNullOrEmpty() || credit == "0.00") {
+                    "£$debit"
                 } else {
                     "£$credit"
                 }
 
-                debit = if (debit.isNullOrEmpty() || debit == "0.00") {
-                    ""
+                val type = if (credit.isNullOrEmpty() || credit == "0.00") {
+                    Color.RED
                 } else {
-                    "£$debit"
+                    Color.parseColor("#008000")
                 }
 
                 accountTransactions.add(
@@ -61,8 +62,8 @@ class FrgAccountDetails : Fragment() {
                         res.getString(0),
                         res.getString(1),
                         res.getString(2),
-                        credit,
-                        debit
+                        amount,
+                        type
                     )
                 )
             }
@@ -81,7 +82,7 @@ class FrgAccountDetails : Fragment() {
     data class AccountTransaction(var opdate: String,
                                   var description: String,
                                   var category: String,
-                                  var credit: String,
-                                  var debit: String)
+                                  var amount: String,
+                                  var type: Int)
 
 }

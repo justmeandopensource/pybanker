@@ -27,10 +27,9 @@ class AccountsTransactionsAdapter(val context: Context?,
         holder.opdate?.text = AccountTransactions[position].opdate
         holder.description?.text = AccountTransactions[position].description
         holder.category?.text = AccountTransactions[position].category
-        holder.credit?.text = AccountTransactions[position].credit
-        holder.debit?.text = AccountTransactions[position].debit
+        holder.amount?.text = AccountTransactions[position].amount
 
-        holder.credit?.setTextColor(android.graphics.Color.GREEN)
+        holder.amount?.setTextColor(AccountTransactions[position].type)
 
     }
 
@@ -38,8 +37,7 @@ class AccountsTransactionsAdapter(val context: Context?,
         val opdate: TextView? = itemView.f_account_details_opdate
         val description: TextView? = itemView.f_account_details_description
         val category: TextView? = itemView.f_account_details_category
-        val credit: TextView? = itemView.f_account_details_credit
-        val debit: TextView? = itemView.f_account_details_debit
+        val amount: TextView? = itemView.f_account_details_amount
     }
 
     override fun getItemId(position: Int): Long {

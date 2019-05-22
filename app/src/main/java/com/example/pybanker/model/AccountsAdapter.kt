@@ -8,12 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.example.pybanker.R
-import com.example.pybanker.ui.ActNavDrawer
 import com.example.pybanker.ui.fragments.FrgAccountDetails
 import com.example.pybanker.ui.fragments.FrgAccounts
-import com.example.pybanker.ui.fragments.FrgAddAccount
 import kotlinx.android.synthetic.main.frg_accounts_cards.view.*
 
 class AccountsAdapter(val context: Context?, val Accounts: ArrayList<FrgAccounts.Account>, val fragmentManager: FragmentManager?)
@@ -48,6 +45,7 @@ class AccountsAdapter(val context: Context?, val Accounts: ArrayList<FrgAccounts
                 fragmentManager!!
                     .beginTransaction()
                     .replace(R.id.frame_layout_main, frgAccountDetails)
+                    .addToBackStack(null)
                     .commit()
             }
         }

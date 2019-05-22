@@ -56,12 +56,12 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
             null)
     }
 
-    fun getAccountLast20(accountName: String?) : Cursor {
+    fun getAccountLast25(accountName: String?) : Cursor {
         val db = this.writableDatabase
         return db
-            .rawQuery("SELECT opdate, description, category, credit, debit " +
+            .rawQuery("SELECT opdate, description, category, printf('%.2f', credit) as credit, printf('%.2f',debit) as debit " +
                         "FROM transactions " +
-                        "WHERE account = ? ORDER BY opdate DESC LIMIT 20",
+                        "WHERE account = ? ORDER BY opdate DESC LIMIT 25",
                 arrayOf(accountName))
     }
 

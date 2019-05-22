@@ -40,6 +40,7 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .beginTransaction()
             .replace(R.id.frame_layout_main, frgDashboard)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null)
             .commit()
 
     }
@@ -62,6 +63,7 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout_main, FrgSettings())
+            .addToBackStack(null)
             .commit()
         return true
     }
@@ -101,6 +103,7 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout_main, fragment)
+            .addToBackStack(null)
             .commit()
     }
 

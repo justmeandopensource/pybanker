@@ -41,10 +41,11 @@ class FrgAccounts : Fragment() {
 
         btnAddAccount.setOnClickListener{
             val fragment = FrgAddAccount()
-            fragmentManager
-                ?.beginTransaction()?.replace(R.id.frame_layout_main, fragment)
-                ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ?.commit()
+            activity!!.supportFragmentManager
+                .beginTransaction().replace(R.id.frame_layout_main, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit()
         }
     }
 

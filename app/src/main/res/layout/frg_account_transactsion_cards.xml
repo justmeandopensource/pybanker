@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2019-05-21"
-                    android:layout_marginRight="20sp"
+                    android:layout_marginEnd="20sp"
                     />
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="HOME COUNCIL TAX"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="italic"
                     />
 
@@ -70,20 +70,11 @@
                 >
 
                 <TextView
-                    android:id="@+id/f_account_details_credit"
+                    android:id="@+id/f_account_details_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#009688"
                     android:text="£ 300.00"
-                    />
-
-                <TextView
-                    android:id="@+id/f_account_details_debit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#F44336"
-                    android:text="£ 300.00"
-                    android:layout_marginLeft="20sp"
+                    android:layout_marginStart="20sp"
                     />
 
             </LinearLayout>
