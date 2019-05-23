@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pybanker.R
+import com.example.pybanker.model.NewTransactionAdapter
+import kotlinx.android.synthetic.main.frg_add_tran.*
 
 
 /**
@@ -19,8 +21,13 @@ class FrgAddTran : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frg_add_tran, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        f_trans_viewpager.adapter = NewTransactionAdapter(childFragmentManager)
+        f_trans_tabs.setupWithViewPager(f_trans_viewpager)
     }
 
 

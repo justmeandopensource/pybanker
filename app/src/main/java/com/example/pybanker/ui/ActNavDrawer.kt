@@ -80,9 +80,6 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_add_transaction -> {
                 FrgAddTran()
             }
-            R.id.nav_transfer_funds -> {
-                FrgTransferFunds()
-            }
             R.id.nav_search -> {
                 FrgSearch()
             }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20sp"
+    android:layout_marginTop="40sp"
+    tools:context=".ui.fragments.FrgNewInExTransaction">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="From Account"
+            android:inputType="text"
+            android:singleLine="true"
+            android:layout_marginTop="20sp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="To Account"
+            android:inputType="text"
+            android:singleLine="true"
+            android:layout_marginTop="20sp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20sp">
+
+        <ImageView
+            android:id="@+id/f_transfer_trans_calbtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:layout_weight="1"
+            android:contentDescription="Calander view"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
+        <TextView
+            android:id="@+id/f_transfer_trans_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="yyyy-mm-dd"
+            android:singleLine="true"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="10sp"
+            android:textSize="18sp"
+            />
+
+        <EditText
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:hint="£ 0.00"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:layout_marginStart="70sp"
+            android:textAlignment="textEnd"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="text"
+            android:singleLine="true"
+            android:layout_marginTop="20sp"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/f_transfer_trans_addbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make Transfer"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="75sp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
