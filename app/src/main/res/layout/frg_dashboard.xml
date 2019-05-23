@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:paddingTop="80sp"
@@ -17,12 +18,17 @@
         android:text="Dashboard under construction"
         android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/testID"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/f_dashboard_add_trans_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check Database"
-        android:layout_marginTop="20sp"
-        />
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="20sp"
+        android:foregroundTint="#F5F2F2"
+        android:src="@drawable/ic_action_add"
+        app:backgroundTint="#1CB8A9"
+        app:fabSize="normal"
+        app:rippleColor="#00FFFDFD" />
 
-</LinearLayout>
+</FrameLayout>

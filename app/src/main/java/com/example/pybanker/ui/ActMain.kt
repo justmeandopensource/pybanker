@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class ActMain : AppCompatActivity() {
 
+    // TODO Get access key from Database and don't hardcode
+    // TODO Enable fingerprint authentication
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +23,7 @@ class ActMain : AppCompatActivity() {
         checkStoragePermissions()
 
         btnLogin.setOnClickListener {
-            if (etAccessCode.text.toString() == "8989") { // todo Get access key from Database and don't hardcode
+            if (etAccessCode.text.toString() == "8989") {
                 val intent = Intent(this, ActNavDrawer::class.java)
                 startActivity(intent)
                 finish()

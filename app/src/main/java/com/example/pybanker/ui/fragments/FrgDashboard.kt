@@ -3,12 +3,12 @@ package com.example.pybanker.ui.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pybanker.R
 import kotlinx.android.synthetic.main.frg_dashboard.*
-import java.io.File
 
 
 /**
@@ -24,22 +24,14 @@ class FrgDashboard : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        testID.setOnClickListener{
-            checkDB()
+        f_dashboard_add_trans_btn.setOnClickListener {
+            val fragment = FrgAddTran()
+            activity!!.supportFragmentManager
+                .beginTransaction().replace(R.id.frame_layout_main, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit()
         }
     }
-
-    private fun checkDB() {
-
-        val db: File = context!!.getDatabasePath("pybanker")
-
-        if (db.exists()) {
-            testTV.text = "Sooper. Database found"
-        } else {
-            testTV.text = "Database not found. Sorry"
-        }
-
-    }
-
 
 }

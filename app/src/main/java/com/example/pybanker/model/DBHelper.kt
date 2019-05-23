@@ -42,7 +42,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
     fun addAccount(name:String, balance:Float, excludetotal:String, type:String) {
         val db = this.writableDatabase
         val contentvalues = ContentValues()
-        contentvalues.put("name",name)
+        contentvalues.put("name", name)
         contentvalues.put("balance", balance)
         contentvalues.put("lastoperated", java.time.LocalDate.now().toString())
         contentvalues.put("excludetotal", excludetotal)
@@ -55,7 +55,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
     get() {
         val db = this.writableDatabase
         return db.rawQuery("SELECT name, lastoperated, printf('%.2f', balance) as balance, status, type " +
-                                "FROM Accounts ORDER BY status, type",
+                                "FROM accounts ORDER BY status, type",
             null)
     }
 
@@ -66,6 +66,70 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
                         "FROM transactions " +
                         "WHERE account = ? ORDER BY opdate DESC LIMIT 25",
                 arrayOf(accountName))
+    }
+
+    fun addTransaction(opdate: String,
+                       description: String,
+                       category: String,
+                       credit: Float,
+                       debit: Float,
+                       account: String) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("opdate", opdate)
+        contentValues.put("description", description)
+        contentValues.put("category", category)
+        contentValues.put("credit", credit)
+        contentValues.put("debit", debit)
+        contentValues.put("account", account)
+        db.insert("transactions", null, contentValues)
+    }
+
+    fun updateAccountBalance(account: String, amount: Float, trans_type: String) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        val oldbalance = getAccountBalance(account)
+        val newbalance: Float
+
+        newbalance = if (isCreditAccount(account)) {
+                        if (trans_type == "IN") oldbalance - amount else oldbalance + amount
+                     } else {
+                        if (trans_type == "IN") oldbalance + amount else oldbalance - amount
+                     }
+        contentValues.put("balance", newbalance)
+
+        db.update("accounts", contentValues, "name = ?", arrayOf(account))
+
+    }
+
+    fun getAccountBalance(account: String): Float {
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT printf('%.2f', balance) as balance FROM accounts WHERE name = ?", arrayOf(account))
+        res.moveToFirst()
+        val balance = res.getString(0).toFloat()
+        res.close()
+        return balance
+    }
+
+    fun isCreditAccount(account: String) : Boolean {
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT type FROM accounts WHERE name = ?", arrayOf(account))
+        res.moveToFirst()
+        val type = res.getString(0)
+        res.close()
+        return when (type) {
+            "Credit Card" -> true
+            else -> false
+        }
+    }
+
+    fun getCategoryType(category: String): String {
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT type FROM categories WHERE name = ?", arrayOf(category))
+        res.moveToFirst()
+        val type = res.getString(0)
+        res.close()
+        return type
     }
 
 }

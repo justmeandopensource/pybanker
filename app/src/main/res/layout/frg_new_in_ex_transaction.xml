@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/f_new_inex_trans_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Choose Account"
@@ -24,6 +25,7 @@
             tools:ignore="HardcodedText" />
 
         <EditText
+            android:id="@+id/f_new_inex_trans_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Choose Category"
@@ -62,6 +64,7 @@
             />
 
         <EditText
+            android:id="@+id/f_new_inex_trans_amount"
             android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:hint="£ 0.00"
@@ -79,6 +82,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/f_new_inex_trans_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
