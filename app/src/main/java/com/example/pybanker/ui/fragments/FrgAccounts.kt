@@ -60,7 +60,9 @@ class FrgAccounts : Fragment() {
                     Account(
                         res.getString(0),
                         res.getString(1),
-                        "£" + res.getString(2)
+                        "£" + res.getString(2),
+                        res.getString(3),
+                        res.getString(4)
                     )
                 )
             }
@@ -75,6 +77,10 @@ class FrgAccounts : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-    data class Account(var accountName: String, var lastOperated: String, var balance: String)
+    data class Account(var accountName: String,
+                       var lastOperated: String,
+                       var balance: String,
+                       var status: String,
+                       var type: String)
 
 }

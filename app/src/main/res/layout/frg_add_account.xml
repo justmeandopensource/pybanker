@@ -58,18 +58,25 @@
             android:textSize="18sp"/>
 
         <RadioButton
-            android:id="@+id/AddAccTypeAsset"
+            android:id="@+id/AddAccTypeCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asset"
+            android:text="Current"
             android:checked="true"
             />
 
         <RadioButton
-            android:id="@+id/AddAccTypeLiability"
+            android:id="@+id/AddAccTypeSavings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Liability"
+            android:text="Savings"
+            />
+
+        <RadioButton
+            android:id="@+id/AddAccTypeCredit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Credit Card"
             />
 
     </RadioGroup>

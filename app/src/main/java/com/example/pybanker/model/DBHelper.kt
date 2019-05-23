@@ -24,6 +24,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
                 "lastoperated TEXT NOT NULL," +
                 "excludetotal TEXT NOT NULL," +
                 "type TEXT NOT NULL," +
+                "status TEXT NOT NULL," +
                 "PRIMARY KEY(name)" +
                 ")"
         db.execSQL(accountsTblCreationQuery)
@@ -46,13 +47,15 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         contentvalues.put("lastoperated", java.time.LocalDate.now().toString())
         contentvalues.put("excludetotal", excludetotal)
         contentvalues.put("type", type)
+        contentvalues.put("status", "Active")
         db.insert("Accounts", null, contentvalues)
     }
 
     val getAccounts:Cursor
     get() {
         val db = this.writableDatabase
-        return db.rawQuery("SELECT name, lastoperated, printf('%.2f', balance) as balance FROM Accounts",
+        return db.rawQuery("SELECT name, lastoperated, printf('%.2f', balance) as balance, status, type " +
+                                "FROM Accounts ORDER BY status, type",
             null)
     }
 

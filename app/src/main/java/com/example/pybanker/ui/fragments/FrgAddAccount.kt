@@ -40,7 +40,11 @@ class FrgAddAccount : Fragment() {
             val name = AddAccETAccountName?.text.toString()
             var balance = AddAccETBalance?.text.toString()
             val excludetotal = if (AddAccExclude.isChecked) "yes" else "no"
-            val type = if (AddAccTypeAsset.isChecked) "A" else "L"
+            val type = when {
+                AddAccTypeCurrent.isChecked -> "Current"
+                AddAccTypeSavings.isChecked -> "Savings"
+                else -> "Credit Card"
+            }
 
             if (name.isEmpty()) {
                 AddAccETAccountName.error = "Name Required"
@@ -71,7 +75,7 @@ class FrgAddAccount : Fragment() {
         AddAccETAccountName.setText("")
         AddAccETBalance.setText("")
         AddAccExclude.isChecked = false
-        AddAccType.check(R.id.AddAccTypeAsset)
+        AddAccType.check(R.id.AddAccTypeCurrent)
     }
 
 }
