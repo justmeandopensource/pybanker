@@ -132,4 +132,26 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         return type
     }
 
+    fun listCategories(): ArrayList<String> {
+        val categories = ArrayList<String>()
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT name FROM categories ORDER BY type", null)
+        while (res.moveToNext()) {
+            categories.add(res.getString(0))
+        }
+        res.close()
+        return categories
+    }
+
+    fun listActiveAccounts(): ArrayList<String> {
+        val accounts = ArrayList<String>()
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT name FROM accounts WHERE status != 'Closed' ORDER BY type", null)
+        while (res.moveToNext()) {
+            accounts.add(res.getString(0))
+        }
+        res.close()
+        return accounts
+    }
+
 }

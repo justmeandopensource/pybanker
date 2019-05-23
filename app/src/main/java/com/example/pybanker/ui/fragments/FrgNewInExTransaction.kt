@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.pybanker.R
 import com.example.pybanker.model.DBHelper
@@ -70,9 +71,9 @@ class FrgNewInExTransaction : Fragment() {
         f_new_inex_trans_addbtn.setOnClickListener {
             val opdate = f_new_inex_trans_date.text.toString()
             val description = f_new_inex_trans_description.text.toString()
-            val category = f_new_inex_trans_category.text.toString()
+            val category = f_new_inex_trans_category.selectedItem.toString()
             val amount = f_new_inex_trans_amount.text.toString()
-            val account = f_new_inex_trans_account.text.toString()
+            val account = f_new_inex_trans_accounts.selectedItem.toString()
 
             when {
                 amount.isEmpty() -> {
@@ -83,12 +84,12 @@ class FrgNewInExTransaction : Fragment() {
                     f_new_inex_trans_description.error = "Description Required!"
                     return@setOnClickListener
                 }
-                category.isEmpty() -> {
-                    f_new_inex_trans_category.error = "Category Required!"
+                account == "Choose an account" -> {
+                    Toast.makeText(context, "Select an account", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                account.isEmpty() -> {
-                    f_new_inex_trans_account.error = "Account Required"
+                category == "Choose a category" -> {
+                    Toast.makeText(context, "Select a category", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
             }
@@ -107,6 +108,19 @@ class FrgNewInExTransaction : Fragment() {
             Toast.makeText(context, "New transaction added", Toast.LENGTH_SHORT).show()
 
         }
+        val categoriesList = dbhelper?.listCategories()
+        categoriesList?.add(0,"Choose a category")
+        val categoriesAdapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item,
+                                             categoriesList!!.toMutableList())
+        f_new_inex_trans_category.adapter = categoriesAdapter
+
+        val accountsList = dbhelper?.listActiveAccounts()
+        accountsList?.add(0, "Choose an account")
+        val accountsAdapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item,
+                                             accountsList!!.toMutableList())
+
+        f_new_inex_trans_accounts.adapter = accountsAdapter
+
     }
 
 

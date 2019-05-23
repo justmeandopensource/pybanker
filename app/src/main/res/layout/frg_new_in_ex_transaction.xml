@@ -14,25 +14,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/f_new_inex_trans_account"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/f_new_inex_trans_accounts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Choose Account"
-            android:inputType="text"
-            android:singleLine="true"
-            android:layout_marginTop="20sp"
-            tools:ignore="HardcodedText" />
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            />
 
-        <EditText
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/f_new_inex_trans_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Choose Category"
-            android:inputType="text"
-            android:singleLine="true"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_marginTop="20sp"
-            tools:ignore="HardcodedText" />
+            />
 
     </LinearLayout>
 
