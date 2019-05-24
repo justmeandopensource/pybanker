@@ -73,7 +73,7 @@ class FrgAccounts : Fragment() {
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_accounts.layoutManager = layoutManager
-        rv_accounts.adapter = AccountsAdapter(context, accounts, this.fragmentManager)
+        rv_accounts.adapter = AccountsAdapter(context, accounts, activity?.supportFragmentManager)
         super.onActivityCreated(savedInstanceState)
     }
 
