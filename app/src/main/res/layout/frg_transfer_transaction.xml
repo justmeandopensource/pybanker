@@ -14,23 +14,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/f_transfer_from_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="From Account"
-            android:inputType="text"
-            android:singleLine="true"
-            android:layout_marginTop="20sp"
-            tools:ignore="HardcodedText" />
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            />
 
-        <EditText
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/f_transfer_to_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="To Account"
-            android:inputType="text"
-            android:singleLine="true"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_marginTop="20sp"
-            tools:ignore="HardcodedText" />
+            />
 
     </LinearLayout>
 
@@ -41,17 +38,17 @@
         android:layout_marginTop="20sp">
 
         <ImageView
-            android:id="@+id/f_transfer_trans_calbtn"
+            android:id="@+id/f_transfer_calbtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
             android:layout_weight="1"
-            android:contentDescription="Calander view"
+            android:contentDescription="Calendar View"
             android:src="@android:drawable/ic_menu_my_calendar"
             app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
         <TextView
-            android:id="@+id/f_transfer_trans_date"
+            android:id="@+id/f_transfer_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="yyyy-mm-dd"
@@ -62,6 +59,7 @@
             />
 
         <EditText
+            android:id="@+id/f_transfer_amount"
             android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:hint="£ 0.00"
@@ -79,6 +77,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/f_transfer_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
@@ -88,7 +87,7 @@
             tools:ignore="HardcodedText" />
 
         <Button
-            android:id="@+id/f_transfer_trans_addbtn"
+            android:id="@+id/f_transfer_addbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Make Transfer"

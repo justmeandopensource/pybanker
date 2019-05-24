@@ -76,20 +76,20 @@ class FrgNewInExTransaction : Fragment() {
             val account = f_new_inex_trans_accounts.selectedItem.toString()
 
             when {
-                amount.isEmpty() -> {
-                    f_new_inex_trans_amount.error = "Amount Required!"
-                    return@setOnClickListener
-                }
-                description.isEmpty() -> {
-                    f_new_inex_trans_description.error = "Description Required!"
-                    return@setOnClickListener
-                }
                 account == "Choose an account" -> {
                     Toast.makeText(context, "Select an account", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
                 category == "Choose a category" -> {
                     Toast.makeText(context, "Select a category", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                amount.isEmpty() -> {
+                    f_new_inex_trans_amount.error = "Amount Required!"
+                    return@setOnClickListener
+                }
+                description.isEmpty() -> {
+                    f_new_inex_trans_description.error = "Description Required!"
                     return@setOnClickListener
                 }
             }
