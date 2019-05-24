@@ -13,7 +13,6 @@
         android:layout_height="230sp"
         app:srcCompat="@drawable/pybanker"
         tools:layout_editor_absoluteX="0dp"
-        android:id="@+id/imageView8"
         android:scaleType="fitStart"
         android:contentDescription="PyBanker Logo"
             />

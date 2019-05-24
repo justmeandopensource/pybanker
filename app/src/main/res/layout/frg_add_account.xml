@@ -73,7 +73,6 @@
             />
 
         <RadioButton
-            android:id="@+id/AddAccTypeCredit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Credit Card"

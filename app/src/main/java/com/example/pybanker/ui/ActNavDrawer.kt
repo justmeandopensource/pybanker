@@ -15,7 +15,7 @@ import com.example.pybanker.ui.fragments.*
 
 class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var frgDashboard: FrgDashboard
+    private lateinit var frgHome: FrgHome
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +35,10 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
-        frgDashboard = FrgDashboard()
+        frgHome = FrgHome()
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.frame_layout_main, frgDashboard)
+            .replace(R.id.frame_layout_main, frgHome)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .addToBackStack(null)
             .commit()
@@ -71,11 +71,8 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun displayFragments(id: Int) {
         val fragment = when (id) {
-            R.id.nav_dashboard -> {
-                FrgDashboard()
-            }
-            R.id.nav_accounts -> {
-                FrgAccounts()
+            R.id.nav_home -> {
+                FrgHome()
             }
             R.id.nav_add_transaction -> {
                 FrgAddTran()
@@ -93,7 +90,7 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 FrgYearGlance()
             }
             else -> {
-                FrgDashboard()
+                FrgHome()
             }
         }
 
