@@ -30,5 +30,4 @@ class FrgHome : Fragment() {
         f_home_tabs.setupWithViewPager(f_home_viewpager)
     }
 
-
 }

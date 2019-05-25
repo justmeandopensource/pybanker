@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.FrgDashboard">
+    android:orientation="vertical"
+    >
 
-    <TextView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/f_search_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search under construction"
-        android:textSize="25sp"
-        android:gravity="center"
-        android:layout_centerInParent="true"
+        android:background="#C2C0C0"
+        app:tabIndicatorColor="#009688"
+        app:tabIndicatorHeight="3sp"
         />
 
-</RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/f_search_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>

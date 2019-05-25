@@ -59,12 +59,12 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
             null)
     }
 
-    fun getAccountLast25(accountName: String?) : Cursor {
+    fun getAccountLast100(accountName: String?) : Cursor {
         val db = this.writableDatabase
         return db
             .rawQuery("SELECT opdate, description, category, printf('%.2f', credit) as credit, printf('%.2f',debit) as debit " +
                         "FROM transactions " +
-                        "WHERE account = ? ORDER BY opdate DESC LIMIT 25",
+                        "WHERE account = ? ORDER BY opdate DESC LIMIT 100",
                 arrayOf(accountName))
     }
 
@@ -152,6 +152,19 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         }
         res.close()
         return accounts
+    }
+
+    fun getSearchResults(searchKeywords: String?) : Cursor {
+        val searchKeywordsList = searchKeywords?.split(" ")
+        var query = "SELECT opdate, description, category, printf('%.2f', credit) as credit, " +
+                "printf('%.2f', debit) as debit, account " +
+                "FROM transactions WHERE "
+        for (keyword in searchKeywordsList!!) {
+            query += "description like '%$keyword%' AND "
+        }
+        query += "1 ORDER BY opdate DESC"
+        val db = this.writableDatabase
+        return db.rawQuery(query, null)
     }
 
 }

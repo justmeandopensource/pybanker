@@ -38,7 +38,7 @@ class FrgAccountDetails : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
         val accountTransactions  = ArrayList<AccountTransaction>()
-        val res = dbhelper?.getAccountLast25(arguments?.getString("accountName"))
+        val res = dbhelper?.getAccountLast100(arguments?.getString("accountName"))
 
         try {
             while (res!!.moveToNext()) {
@@ -67,6 +67,7 @@ class FrgAccountDetails : Fragment() {
                     )
                 )
             }
+            res.close()
         } catch (e: Exception) {
             Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
         }

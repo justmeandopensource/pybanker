@@ -32,6 +32,15 @@ class FrgDashboard : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        f_dashboard_search.setOnClickListener {
+            val fragment = FrgSearch()
+            activity!!.supportFragmentManager
+                .beginTransaction().replace(R.id.frame_layout_main, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
 }

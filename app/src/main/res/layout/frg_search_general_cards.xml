@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="10sp"
-    android:layout_marginVertical="4sp"
-    app:cardCornerRadius="5dp"
-    android:id="@+id/accounts_card_view"
+    android:layout_marginVertical="1dp"
+    app:cardCornerRadius="0dp"
     app:cardMaxElevation="1dp"
     app:cardElevation="1dp">
 
@@ -21,65 +19,72 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5sp">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_account_name"
+                android:id="@+id/f_search_general_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
+                android:text="Groceries from tesco"
                 android:textStyle="bold"
                 />
 
         </RelativeLayout>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5sp">
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                tools:ignore="RelativeOverlap">
+                >
+
 
                 <TextView
-                    android:id="@+id/tv_account_lastoperated"
+                    android:id="@+id/f_search_general_opdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2019-05-21"
-                    android:textSize="12sp"
+                    android:layout_marginEnd="10sp"
                     />
+
                 <TextView
-                    android:id="@+id/f_accounts_type"
+                    android:id="@+id/f_search_general_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Savings"
-                    android:layout_marginStart="10sp"
-                    android:textSize="12sp"/>
-                <TextView
-                    android:id="@+id/f_accounts_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10sp"
+                    android:text="HOME COUNCIL TAX"
+                    android:textSize="10sp"
                     android:textStyle="italic"
-                    android:textSize="12sp"/>
+                    android:layout_marginEnd="10sp"
+                    tools:ignore="SmallSp" />
+
+                <TextView
+                    android:id="@+id/f_search_general_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tesco Credit Card"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                >
 
                 <TextView
-                    android:id="@+id/tv_account_balance"
+                    android:id="@+id/f_search_general_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="£ 300.00"
-                    android:textStyle="bold"
+                    android:layout_marginStart="20sp"
                     />
 
             </LinearLayout>
