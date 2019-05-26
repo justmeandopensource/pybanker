@@ -11,11 +11,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_accounts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
         />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAddAccount"
+        android:id="@+id/f_accounts_add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

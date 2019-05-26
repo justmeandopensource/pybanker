@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,7 @@ class FrgAccounts : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnAddAccount.setOnClickListener{
+        f_accounts_add_btn.setOnClickListener{
             val fragment = FrgAddAccount()
             activity!!.supportFragmentManager
                 .beginTransaction().replace(R.id.frame_layout_main, fragment)
@@ -74,6 +75,18 @@ class FrgAccounts : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_accounts.layoutManager = layoutManager
         rv_accounts.adapter = AccountsAdapter(context, accounts, activity?.supportFragmentManager)
+
+        rv_accounts.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    f_accounts_add_btn.hide()
+                } else if (dy < 0) {
+                    f_accounts_add_btn.show()
+                }
+            }
+        })
+
         super.onActivityCreated(savedInstanceState)
     }
 

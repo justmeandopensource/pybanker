@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import com.example.pybanker.R
 import com.example.pybanker.model.DBHelper
 import com.example.pybanker.model.DashboardCurrentMonthExpAdapter
 import kotlinx.android.synthetic.main.frg_dashboard.*
-import java.lang.Exception
 
 
 /**
@@ -76,6 +76,19 @@ class FrgDashboard : Fragment() {
             f_dashboard_current_exp_recycler_view.layoutManager = layoutManager
             f_dashboard_current_exp_recycler_view.adapter = DashboardCurrentMonthExpAdapter(context, currentMonthExpenses)
         }
+
+        f_dashboard_current_exp_recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    f_dashboard_search.hide()
+                    f_dashboard_add_trans_btn.hide()
+                } else if (dy < 0) {
+                    f_dashboard_search.show()
+                    f_dashboard_add_trans_btn.show()
+                }
+            }
+        })
 
     }
 
