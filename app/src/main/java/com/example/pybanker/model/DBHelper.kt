@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 
 class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
@@ -165,6 +166,85 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         query += "1 ORDER BY opdate DESC"
         val db = this.writableDatabase
         return db.rawQuery(query, null)
+    }
+
+    fun getDistinctYear() : ArrayList<String> {
+        val year = ArrayList<String>()
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT DISTINCT strftime('%Y', opdate) AS year FROM transactions ORDER BY year DESC",
+                            null)
+        while (res.moveToNext()) {
+            year.add(res.getString(0))
+        }
+        res.close()
+        return year
+    }
+
+    fun listTransactionsByCategory(category: String, month: String?, year: String?): Cursor {
+
+        val query: String
+
+        when {
+            (month.isNullOrEmpty() || year.isNullOrEmpty()) -> {
+                query = "SELECT opdate, description, printf('%.2f', credit) as credit, " +
+                        "printf('%.2f', debit) as debit, account " +
+                        "FROM transactions " +
+                        "WHERE category = ? " +
+                        "ORDER BY opdate DESC " +
+                        "LIMIT 50"
+            } else -> {
+
+                val monthshort = when (month) {
+                    "January"   -> {
+                        "01"
+                    }
+                    "February"  -> {
+                        "02"
+                    }
+                    "March"     -> {
+                        "03"
+                    }
+                    "April"     -> {
+                        "04"
+                    }
+                    "May"       -> {
+                        "05"
+                    }
+                    "June"      -> {
+                        "06"
+                    }
+                    "July"      -> {
+                        "07"
+                    }
+                    "August"    -> {
+                        "08"
+                    }
+                    "September" -> {
+                        "09"
+                    }
+                    "October"   -> {
+                        "10"
+                    }
+                    "November"  -> {
+                        "11"
+                    }
+                    else        -> {
+                        "12"
+                    }
+                }
+                query = "SELECT opdate, description, printf('%.2f', credit) as credit, " +
+                        "printf('%.2f', debit) as debit, account " +
+                        "FROM transactions " +
+                        "WHERE category = ? AND " +
+                        "strftime('%Y', opdate) = '$year' AND " +
+                        "strftime('%m', opdate) = '$monthshort' " +
+                        "ORDER BY opdate DESC"
+                Log.d("PYBEDUGEEEE ====> ", query)
+            }
+        }
+
+        val db = this.writableDatabase
+        return db.rawQuery(query, arrayOf(category))
     }
 
 }
