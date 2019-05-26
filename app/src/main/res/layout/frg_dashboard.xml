@@ -6,16 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:paddingTop="80sp"
+    android:layout_marginTop="20sp"
     tools:context=".ui.fragments.FrgDashboard">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/f_dashboard_current_exp_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:gravity="center"
-        android:text="Dashboard under construction"
-        android:textSize="20sp" />
+        android:layout_marginTop="20sp">
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/f_dashboard_add_trans_btn"

@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
@@ -245,6 +246,35 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
 
         val db = this.writableDatabase
         return db.rawQuery(query, arrayOf(category))
+    }
+
+    fun getCurrentMonthExpensesByCategory(): Cursor {
+        val db = this.writableDatabase
+        val query = "SELECT category, PRINTF('%.2f', debit) AS debit FROM (" +
+                "SELECT category, SUM(debit) AS debit " +
+                "FROM transactions t1 " +
+                "INNER JOIN" +
+                "(" +
+                "SELECT * " +
+                "FROM categories " +
+                "WHERE type = 'EX' AND name NOT IN ('TRANSFER OUT')" +
+                ") t2 " +
+                "ON t1.category = t2.name " +
+                "WHERE STRFTIME('%Y', opdate) = STRFTIME('%Y', 'now') and STRFTIME('%m', opdate) = STRFTIME('%m', 'now') " +
+                "GROUP BY category ORDER BY debit DESC" +
+                ")"
+        return db.rawQuery(query, null)
+    }
+
+    fun transactionsTableExists(): Boolean {
+        val db = this.writableDatabase
+        try {
+            val res = db.rawQuery("SELECT COUNT(*) FROM transactions", null)
+            res.close()
+        } catch (e: SQLiteException) {
+            return false
+        }
+        return true
     }
 
 }
