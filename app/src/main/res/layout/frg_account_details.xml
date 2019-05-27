@@ -9,6 +9,7 @@
         android:id="@+id/rv_account_transactions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layoutAnimation="@anim/anim_recycler_item_fall_down_layout"
         />
 
 </FrameLayout>

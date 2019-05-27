@@ -53,6 +53,7 @@
             android:id="@+id/f_search_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/anim_recycler_item_fall_down_layout"
             />
 
     </FrameLayout>

@@ -9,14 +9,16 @@
     android:layout_marginTop="20sp"
     tools:context=".ui.fragments.FrgDashboard">
 
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/f_dashboard_current_exp_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20sp"
         android:clipToPadding="false"
+        android:layoutAnimation="@anim/anim_recycler_item_fall_down_layout"
         android:paddingBottom="200dp">
-
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
