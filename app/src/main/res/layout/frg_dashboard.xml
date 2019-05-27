@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,41 +9,88 @@
     android:layout_marginTop="20sp"
     tools:context=".ui.fragments.FrgDashboard">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginVertical="10sp"
+            app:cardBackgroundColor="#DBDBDB"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="1sp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10sp"
+                android:layout_marginVertical="10sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Total expense for the current month"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/f_dashboard_total_expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/f_dashboard_current_exp_recycler_view"
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20sp"
-        android:clipToPadding="false"
-        android:layoutAnimation="@anim/anim_recycler_item_fall_down_layout"
-        android:paddingBottom="200dp">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_marginTop="10sp">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/f_dashboard_add_trans_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20sp"
-        android:layout_marginBottom="20sp"
-        android:foregroundTint="#F5F2F2"
-        android:src="@drawable/ic_action_add"
-        app:backgroundTint="#1CB8A9"
-        app:fabSize="normal"
-        app:rippleColor="#00FFFDFD" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/f_dashboard_current_exp_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/anim_recycler_item_fall_down_layout"
+            android:paddingBottom="200dp">
+        </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/f_dashboard_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20sp"
-        android:layout_marginBottom="90sp"
-        app:backgroundTint="#1CB8A9"
-        app:fabSize="normal"
-        android:src="@drawable/ic_action_search" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/f_dashboard_add_trans_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20sp"
+            android:layout_marginBottom="20sp"
+            android:foregroundTint="#F5F2F2"
+            android:src="@drawable/ic_action_add"
+            app:backgroundTint="#1CB8A9"
+            app:fabSize="normal"
+            app:rippleColor="#00FFFDFD" />
 
-</FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/f_dashboard_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20sp"
+            android:layout_marginBottom="90sp"
+            app:backgroundTint="#1CB8A9"
+            app:fabSize="normal"
+            android:src="@drawable/ic_action_search" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

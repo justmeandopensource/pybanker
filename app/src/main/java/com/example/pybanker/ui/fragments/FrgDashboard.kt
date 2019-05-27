@@ -57,6 +57,9 @@ class FrgDashboard : Fragment() {
 
         if (dbhelper!!.transactionsTableExists()) {
 
+            val totalExpense = dbhelper?.getCurrentMonthExpense()
+            f_dashboard_total_expense.text = "£$totalExpense"
+
             val currentMonthExpenses = ArrayList<CurrentMonthExpense>()
             val res = dbhelper?.getCurrentMonthExpensesByCategory()
 

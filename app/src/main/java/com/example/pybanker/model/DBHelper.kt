@@ -277,4 +277,22 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         return true
     }
 
+    fun getCurrentMonthExpense(): String {
+        val db = this.writableDatabase
+        val query = "SELECT PRINTF('%.2f', SUM(debit)) " +
+                    "FROM transactions " +
+                    "WHERE category NOT IN ('TRANSFER OUT') " +
+                    "AND STRFTIME('%Y', opdate) = STRFTIME('%Y', 'now') " +
+                    "AND STRFTIME('%m', opdate) = STRFTIME('%m', 'now')"
+        val res = db.rawQuery(query, null)
+        return if (res.count > 0) {
+            res.moveToFirst()
+            val result = res.getString(0)
+            res.close()
+            result
+        } else {
+            ""
+        }
+    }
+
 }
