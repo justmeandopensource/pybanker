@@ -295,4 +295,32 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         }
     }
 
+    fun getInExMonthlyTrend(): Cursor {
+        val db = this.writableDatabase
+        val query = "SELECT STRFTIME('%m-%Y', opdate) AS period, " +
+                    "CAST(SUM(credit) AS INT) AS income, " +
+                    "CAST(SUM(debit) AS INT) AS expense " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM accounts WHERE excludetotal = 'no') t2 " +
+                    "ON t1.account = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER IN', 'TRANSFER OUT') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+        return db.rawQuery(query, null)
+    }
+
+    fun getInExYearlyTrend(): Cursor {
+        val db = this.writableDatabase
+        val query = "SELECT STRFTIME('%Y', opdate) AS period, " +
+                "CAST(SUM(credit) AS INT) AS income, " +
+                "CAST(SUM(debit) AS INT) AS expense " +
+                "FROM transactions t1 " +
+                "INNER JOIN (SELECT name FROM accounts WHERE excludetotal = 'no') t2 " +
+                "ON t1.account = t2.name " +
+                "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER IN', 'TRANSFER OUT') " +
+                "GROUP BY period " +
+                "ORDER BY STRFTIME('%Y', opdate)"
+        return db.rawQuery(query, null)
+    }
+
 }
