@@ -69,6 +69,8 @@ class FrgAccounts : Fragment() {
             }
         } catch (e: Exception) {
             Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
+        } finally {
+            res?.close()
         }
 
         val layoutManager = LinearLayoutManager(activity)

@@ -85,6 +85,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         contentValues.put("debit", debit)
         contentValues.put("account", account)
         db.insert("transactions", null, contentValues)
+        db.close()
     }
 
     fun updateAccountBalance(account: String, amount: Float, trans_type: String) {
@@ -101,7 +102,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         contentValues.put("balance", newbalance)
 
         db.update("accounts", contentValues, "name = ?", arrayOf(account))
-
+        db.close()
     }
 
     fun getAccountBalance(account: String): Float {
@@ -110,6 +111,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         res.moveToFirst()
         val balance = res.getString(0).toFloat()
         res.close()
+        db.close()
         return balance
     }
 
@@ -119,6 +121,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         res.moveToFirst()
         val type = res.getString(0)
         res.close()
+        db.close()
         return when (type) {
             "Credit Card" -> true
             else -> false
@@ -131,6 +134,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         res.moveToFirst()
         val type = res.getString(0)
         res.close()
+        db.close()
         return type
     }
 
@@ -142,6 +146,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
             categories.add(res.getString(0))
         }
         res.close()
+        db.close()
         return categories
     }
 
@@ -153,6 +158,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
             accounts.add(res.getString(0))
         }
         res.close()
+        db.close()
         return accounts
     }
 
@@ -178,6 +184,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
             year.add(res.getString(0))
         }
         res.close()
+        db.close()
         return year
     }
 
@@ -271,6 +278,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         try {
             val res = db.rawQuery("SELECT COUNT(*) FROM transactions", null)
             res.close()
+            db.close()
         } catch (e: SQLiteException) {
             return false
         }
@@ -289,6 +297,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
             res.moveToFirst()
             val result = res.getString(0)
             res.close()
+            db.close()
             result
         } else {
             ""
@@ -320,6 +329,36 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
                 "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER IN', 'TRANSFER OUT') " +
                 "GROUP BY period " +
                 "ORDER BY STRFTIME('%Y', opdate)"
+        return db.rawQuery(query, null)
+    }
+
+    fun getCatStatsMonthly(category: String): Cursor {
+        val amountType = when (getCategoryType(category)) {
+            "EX"    -> "debit"
+            else    -> "credit"
+        }
+        val query = "SELECT STRFTIME('%m-%Y', opdate) AS period, " +
+                    "CAST(SUM($amountType) AS INT) AS amount " +
+                    "FROM transactions " +
+                    "WHERE category = '$category' " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+        val db = this.writableDatabase
+        return db.rawQuery(query, null)
+    }
+
+    fun getCatsStatsYearly(category: String): Cursor {
+        val amountType = when (getCategoryType(category)) {
+            "EX"    -> "debit"
+            else    -> "credit"
+        }
+        val query = "SELECT STRFTIME('%Y', opdate) AS period, " +
+                "CAST(SUM($amountType) AS INT) AS amount " +
+                "FROM transactions " +
+                "WHERE category = '$category' " +
+                "GROUP BY period " +
+                "ORDER BY STRFTIME('%Y', opdate)"
+        val db = this.writableDatabase
         return db.rawQuery(query, null)
     }
 
