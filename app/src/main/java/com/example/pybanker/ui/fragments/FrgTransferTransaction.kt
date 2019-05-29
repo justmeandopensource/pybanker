@@ -30,6 +30,11 @@ class FrgTransferTransaction : Fragment() {
         dbhelper = DBHelper(activity)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        dbhelper?.close()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,6 +108,7 @@ class FrgTransferTransaction : Fragment() {
             dbhelper?.addTransaction(opdate, description, "TRANSFER IN", amount.toFloat(), 0.00f, toAccount)
             dbhelper?.updateAccountBalance(toAccount, amount.toFloat(), "IN")
 
+            clearForm()
             Toast.makeText(context, "Funds Transferred successfully", Toast.LENGTH_SHORT).show()
 
         }
@@ -122,5 +128,13 @@ class FrgTransferTransaction : Fragment() {
         f_transfer_to_account.adapter = toAccountsAdapter
     }
 
+    @SuppressLint("SimpleDateFormat")
+    private fun clearForm() {
+        f_transfer_from_account.setSelection(0)
+        f_transfer_to_account.setSelection(0)
+        f_transfer_date.text = SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis())
+        f_transfer_amount.text.clear()
+        f_transfer_description.text.clear()
+    }
 
 }

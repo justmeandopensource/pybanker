@@ -31,6 +31,11 @@ class FrgNewInExTransaction : Fragment() {
         dbhelper = DBHelper(activity)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        dbhelper?.close()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,6 +110,8 @@ class FrgNewInExTransaction : Fragment() {
             dbhelper?.addTransaction(opdate, description, category, credit.toFloat(), debit.toFloat(), account)
             dbhelper?.updateAccountBalance(account,amount.toFloat(), transType)
 
+            clearForm()
+
             Toast.makeText(context, "New transaction added", Toast.LENGTH_SHORT).show()
 
         }
@@ -121,6 +128,15 @@ class FrgNewInExTransaction : Fragment() {
 
         f_new_inex_trans_accounts.adapter = accountsAdapter
 
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun clearForm() {
+        f_new_inex_trans_accounts.setSelection(0)
+        f_new_inex_trans_category.setSelection(0)
+        f_new_inex_trans_date.text = SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis())
+        f_new_inex_trans_amount.text.clear()
+        f_new_inex_trans_description.text.clear()
     }
 
 

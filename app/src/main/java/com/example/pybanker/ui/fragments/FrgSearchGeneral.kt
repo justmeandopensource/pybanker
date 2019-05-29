@@ -29,6 +29,11 @@ class FrgSearchGeneral : Fragment() {
         dbhelper = DBHelper(activity)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        dbhelper?.close()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
