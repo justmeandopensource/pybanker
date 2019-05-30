@@ -2,6 +2,7 @@ package com.example.pybanker.ui.fragments
 
 
 import android.content.Context
+import android.database.Cursor
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
@@ -14,6 +15,9 @@ import android.widget.Toast
 import com.example.pybanker.R
 import com.example.pybanker.model.DBHelper
 import com.example.pybanker.model.DashboardCurrentMonthExpAdapter
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import kotlinx.android.synthetic.main.frg_dashboard.*
 
 
@@ -62,6 +66,9 @@ class FrgDashboard : Fragment() {
 
         if (dbhelper!!.transactionsTableExists()) {
 
+            val res0 = dbhelper?.getLast12MonthExpenses()
+            last5MonthExpensesChart(res0)
+
             val totalExpense = dbhelper?.getCurrentMonthExpense()
             f_dashboard_total_expense.text = "£$totalExpense"
 
@@ -99,6 +106,35 @@ class FrgDashboard : Fragment() {
             }
         })
 
+    }
+
+    private fun last5MonthExpensesChart(res: Cursor?) {
+        val expenseEntries = ArrayList<BarEntry>()
+        try {
+            var i = 0
+            while (res!!.moveToNext()) {
+                i++
+                expenseEntries.add(BarEntry(i.toFloat(), res.getFloat(1)))
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
+        } finally {
+            res?.close()
+        }
+
+        val expenseDataSet = BarDataSet(expenseEntries, "Last 12 months expense trend")
+        barchart_dashboard_expenses.animateY(500)
+        expenseDataSet.valueTextSize = 8f
+        val chartData = BarData(expenseDataSet)
+        barchart_dashboard_expenses.xAxis.setDrawLabels(false)
+        barchart_dashboard_expenses.xAxis.setDrawAxisLine(false)
+        barchart_dashboard_expenses.xAxis.setDrawGridLines(false)
+        barchart_dashboard_expenses.axisLeft.setDrawLabels(false)
+        barchart_dashboard_expenses.axisLeft.setDrawAxisLine(false)
+        barchart_dashboard_expenses.axisRight.setDrawLabels(false)
+        barchart_dashboard_expenses.axisRight.setDrawAxisLine(false)
+        barchart_dashboard_expenses.description.isEnabled = false
+        barchart_dashboard_expenses.data = chartData
     }
 
     data class CurrentMonthExpense(var category: String, var amount: String)

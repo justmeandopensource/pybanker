@@ -352,4 +352,19 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         return db.rawQuery(query, null)
     }
 
+    fun getLast12MonthExpenses(): Cursor {
+        val query = "SELECT STRFTIME('%Y-%m', opdate) AS period, " +
+                    "CAST(SUM(debit) AS INT) AS debit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'EX') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER OUT') " +
+                        "AND opdate BETWEEN DATETIME('now', '-12 months', 'start of month') " +
+                        "AND DATETIME('now', 'localtime') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+        val db = this.writableDatabase
+        return db.rawQuery(query, null)
+    }
+
 }
