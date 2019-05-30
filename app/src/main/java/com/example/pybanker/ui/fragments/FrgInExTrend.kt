@@ -4,6 +4,7 @@ package com.example.pybanker.ui.fragments
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -99,6 +100,7 @@ class FrgInExTrend : Fragment() {
         lineChart.axisRight.setDrawLabels(false)
         lineChart.axisRight.setDrawAxisLine(false)
         lineChart.description.text = "Income/Expense trend $period"
+        lineChart.animateY(500)
     }
 
 }

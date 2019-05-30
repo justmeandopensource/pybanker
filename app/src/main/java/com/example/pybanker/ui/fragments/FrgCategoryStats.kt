@@ -112,7 +112,7 @@ class FrgCategoryStats : Fragment() {
         lineChart.axisRight.setDrawLabels(false)
         lineChart.axisRight.setDrawAxisLine(false)
         lineChart.description.text = "Category trend $period"
-
+        lineChart.animateY(500)
         lineChart.invalidate()
     }
 
