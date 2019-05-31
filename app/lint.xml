@@ -2,5 +2,6 @@
 <lint>
     <issue id="IconLauncherShape">
         <ignore path="src/main/res/drawable/logo.png" />
+        <ignore path="src/main/res/drawable/pybanker_logo.png" />
     </issue>
 </lint>
