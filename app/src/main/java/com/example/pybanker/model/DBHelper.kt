@@ -155,7 +155,7 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         return accounts
     }
 
-    fun getSearchResults(searchKeywords: String?) : Cursor {
+    fun getSearchResults(searchKeywords: String?, category: String?) : Cursor {
         val searchKeywordsList = searchKeywords?.split(" ")
         var query = "SELECT opdate, description, category, printf('%.2f', credit) as credit, " +
                 "printf('%.2f', debit) as debit, account " +
@@ -163,6 +163,11 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
         for (keyword in searchKeywordsList!!) {
             query += "description like '%$keyword%' AND "
         }
+
+        if (!category.isNullOrEmpty()) {
+            query += "category = '$category' AND "
+        }
+
         query += "1 ORDER BY opdate DESC"
         val db = this.writableDatabase
         return db.rawQuery(query, null)

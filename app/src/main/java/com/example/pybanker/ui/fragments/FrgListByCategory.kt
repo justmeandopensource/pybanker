@@ -38,7 +38,6 @@ class FrgListByCategory : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frg_list_by_category, container, false)
     }
 

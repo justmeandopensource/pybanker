@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 
 import com.example.pybanker.R
@@ -43,14 +44,32 @@ class FrgSearchGeneral : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val categoriesList = dbhelper?.listCategories()
+        categoriesList?.add(0,"Choose a category")
+        val categoriesAdapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item,
+            categoriesList!!.toMutableList())
+        f_search_general_category_spinner.adapter = categoriesAdapter
+
         f_search_general_search_button.setOnClickListener {
 
             val searchKeywords = f_search_general_search_text.text.toString()
+            val category = f_search_general_category_spinner.selectedItem.toString()
+
             if (searchKeywords.isEmpty()) {
                 Toast.makeText(context, "Search keywords required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val res = dbhelper?.getSearchResults(searchKeywords)
+
+            val res = when (category) {
+                "Choose a category" -> {
+                    dbhelper?.getSearchResults(searchKeywords, null)
+                }
+                else -> {
+                    dbhelper?.getSearchResults(searchKeywords, category)
+                }
+            }
+
             if (res!!.count == 0) {
                 Toast.makeText(context, "No results returned", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
