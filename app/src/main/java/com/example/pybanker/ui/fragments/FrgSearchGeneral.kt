@@ -56,6 +56,8 @@ class FrgSearchGeneral : Fragment() {
             val searchKeywords = f_search_general_search_text.text.toString()
             val category = f_search_general_category_spinner.selectedItem.toString()
 
+            clearForm()
+
             if (searchKeywords.isEmpty()) {
                 Toast.makeText(context, "Search keywords required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -118,6 +120,10 @@ class FrgSearchGeneral : Fragment() {
         }
     }
 
+    private fun clearForm() {
+        f_search_general_category_spinner.setSelection(0)
+        f_search_general_search_text.text.clear()
+    }
 
     data class SearchTransaction(var opdate: String,
                                   var description: String,

@@ -79,6 +79,8 @@ class FrgListByCategory : Fragment() {
             var month = f_list_bycat_month.selectedItem.toString()
             var year = f_list_bycat_year.selectedItem.toString()
 
+            clearForm()
+
             if (category == "Choose a category") {
                 Toast.makeText(context, "Please choose a category", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -132,6 +134,12 @@ class FrgListByCategory : Fragment() {
 
         }
 
+    }
+
+    private fun clearForm() {
+        f_list_bycat_category.setSelection(0)
+        f_list_bycat_month.setSelection(0)
+        f_list_bycat_year.setSelection(0)
     }
 
     data class ListTransByCat(var opdate: String,

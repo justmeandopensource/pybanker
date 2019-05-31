@@ -28,6 +28,7 @@
                 android:textSize="15sp"
                 android:text="Groceries from tesco"
                 android:textStyle="bold"
+                android:textIsSelectable="true"
                 />
 
         </RelativeLayout>
