@@ -86,9 +86,6 @@ class ActNavDrawer : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_category_stats -> {
                 FrgCategoryStats()
             }
-            R.id.nav_year_glance -> {
-                FrgYearGlance()
-            }
             else -> {
                 FrgHome()
             }

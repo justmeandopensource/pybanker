@@ -24,16 +24,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchart_catstats_last12"
+                android:layout_width="match_parent"
+                android:layout_height="200sp"
+                />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_catstats_monthly"
                 android:layout_width="match_parent"
-                android:layout_height="300sp"
+                android:layout_height="200sp"
                 />
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_catstats_yearly"
                 android:layout_width="match_parent"
-                android:layout_height="300sp"
+                android:layout_height="200sp"
                 />
 
         </LinearLayout>

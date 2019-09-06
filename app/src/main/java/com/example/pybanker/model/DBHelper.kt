@@ -125,6 +125,9 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
     }
 
     fun getCategoryType(category: String): String {
+        if (category == "ALL EXPENSES" || category == "ALL INCOME") {
+            return "doesn't matter"
+        }
         val db = this.writableDatabase
         val res = db.rawQuery("SELECT type FROM categories WHERE name = ?", arrayOf(category))
         res.moveToFirst()
@@ -330,14 +333,34 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
     fun getCatStatsMonthly(category: String): Cursor {
         val amountType = when (getCategoryType(category)) {
             "EX"    -> "debit"
-            else    -> "credit"
+            "IN"    -> "credit"
+            else    -> null
         }
-        val query = "SELECT STRFTIME('%m-%Y', opdate) AS period, " +
+        val query: String
+        when (category) {
+            "ALL EXPENSES" -> query = "SELECT STRFTIME('%m-%Y', opdate) AS period, " +
+                    "CAST(SUM(debit) AS INT) AS debit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'EX') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER OUT') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+            "ALL INCOME" -> query = "SELECT STRFTIME('%m-%Y', opdate) AS period, " +
+                    "CAST(SUM(credit) AS INT) AS credit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'IN') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER IN') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+            else -> query = "SELECT STRFTIME('%m-%Y', opdate) AS period, " +
                     "CAST(SUM($amountType) AS INT) AS amount " +
                     "FROM transactions " +
                     "WHERE category = '$category' " +
                     "GROUP BY period " +
                     "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+        }
         val db = this.writableDatabase
         return db.rawQuery(query, null)
     }
@@ -345,14 +368,75 @@ class DBHelper(val context: Context?) : SQLiteOpenHelper(context,
     fun getCatsStatsYearly(category: String): Cursor {
         val amountType = when (getCategoryType(category)) {
             "EX"    -> "debit"
-            else    -> "credit"
+            "IN"    -> "credit"
+            else    -> null
         }
-        val query = "SELECT STRFTIME('%Y', opdate) AS period, " +
-                "CAST(SUM($amountType) AS INT) AS amount " +
-                "FROM transactions " +
-                "WHERE category = '$category' " +
-                "GROUP BY period " +
-                "ORDER BY STRFTIME('%Y', opdate)"
+        val query: String
+        when (category) {
+            "ALL EXPENSES" -> query = "SELECT STRFTIME('%Y', opdate) AS period, " +
+                    "CAST(SUM(debit) AS INT) AS debit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'EX') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER OUT') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate)"
+            "ALL INCOME" -> query = "SELECT STRFTIME('%Y', opdate) AS period, " +
+                    "CAST(SUM(credit) AS INT) AS credit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'IN') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER IN') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate)"
+            else -> query = "SELECT STRFTIME('%Y', opdate) AS period, " +
+                    "CAST(SUM($amountType) AS INT) AS amount " +
+                    "FROM transactions " +
+                    "WHERE category = '$category' " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate)"
+        }
+        val db = this.writableDatabase
+        return db.rawQuery(query, null)
+    }
+
+    fun getCatsStatsLast12(category: String): Cursor {
+        val amountType = when (getCategoryType(category)) {
+            "EX"    -> "debit"
+            "IN"    -> "credit"
+            else    -> null
+        }
+        val query: String
+        when (category) {
+            "ALL EXPENSES" -> query = "SELECT STRFTIME('%Y-%m', opdate) AS period, " +
+                    "CAST(SUM(debit) AS INT) AS debit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'EX') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER OUT') " +
+                    "AND opdate BETWEEN DATETIME('now', '-12 months', 'start of month') " +
+                    "AND DATETIME('now', 'localtime') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+            "ALL INCOME" -> query = "SELECT STRFTIME('%Y-%m', opdate) AS period, " +
+                    "CAST(SUM(credit) AS INT) AS credit " +
+                    "FROM transactions t1 " +
+                    "INNER JOIN (SELECT name FROM categories WHERE type = 'IN') t2 " +
+                    "ON t1.category = t2.name " +
+                    "WHERE category NOT IN ('OPENING BALANCE', 'TRANSFER IN') " +
+                    "AND opdate BETWEEN DATETIME('now', '-12 months', 'start of month') " +
+                    "AND DATETIME('now', 'localtime') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+            else -> query = "SELECT STRFTIME('%Y-%m', opdate) AS period, " +
+                    "CAST(SUM($amountType) AS INT) AS amount " +
+                    "FROM transactions " +
+                    "WHERE category = '$category' " +
+                    "AND opdate BETWEEN DATETIME('now', '-12 months', 'start of month') " +
+                    "AND DATETIME('now', 'localtime') " +
+                    "GROUP BY period " +
+                    "ORDER BY STRFTIME('%Y', opdate), STRFTIME('%m', opdate)"
+        }
         val db = this.writableDatabase
         return db.rawQuery(query, null)
     }
