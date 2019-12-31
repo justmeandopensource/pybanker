@@ -67,16 +67,15 @@
                     <tbody>
                         {% for account in accounts %}
                         {% if 'Current' in account[3] %}
-                            {% set trbgcolor = "#F1F6FA" %}
+                        {% set trbgcolor = "#F1F6FA" %}
                         {% elif 'Savings' in account[3] %}
-                            {% set trbgcolor = "#EBF2EA" %}
+                        {% set trbgcolor = "#EBF2EA" %}
                         {% elif 'Credit Card' in account[3] %}
-                            {% set trbgcolor = "#FBF1EF" %}
+                        {% set trbgcolor = "#FBF1EF" %}
                         {% endif %}
                         <tr bgcolor="{{ trbgcolor }}">
                             <td>
-                                <a
-                                    href="">
+                                <a href="">
                                     {{ account[0] }}
                                 </a>
                             </td>
@@ -94,6 +93,36 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> [Monthly] Income/Expense Trend since beginning</h3>
+        </div>
+        <div class="panel-body">
+            {% if inexAllGraph %}
+            <embed type="image/svg+xml" src={{inexAllGraph|safe}} style='max-width:100%' />
+            {% endif %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> [Yearly] Income/Expense Trend since beginning</h3>
+        </div>
+        <div class="panel-body">
+            {% if inexYearlyAllGraph %}
+            <embed type="image/svg+xml" src={{inexYearlyAllGraph|safe}} style='max-width:100%' />
+            {% endif %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> Expense Trend since beginning</h3>
+        </div>
+        <div class="panel-body">
+            {% if exAllGraph %}
+            <embed type="image/svg+xml" src={{exAllGraph|safe}} style='max-width:100%' />
+            {% endif %}
         </div>
     </div>
     {% endif %}

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
 from helper_modules.dbHelper import getAccounts
+from helper_modules.reportHelper import (
+    inexTrendAll, inexTrendYearlyAll, exTrendAll)
 import os
 
 # Initialize Flask Object
@@ -25,11 +27,19 @@ def index():
 # Dashboard Route
 @app.route('/dashboard')
 def dashboard():
-    category = ""
+    category = None
     if 'category' in request.args:
         category = request.args['category']
     accounts = getAccounts()
-    return render_template('dashboard.html', accounts=accounts, category=category)
+    inexAllGraph = inexTrendAll()
+    inexYearlyAllGraph = inexTrendYearlyAll()
+    exAllGraph = exTrendAll()
+    return render_template('dashboard.html',
+                           accounts=accounts,
+                           inexAllGraph=inexAllGraph,
+                           inexYearlyAllGraph=inexYearlyAllGraph,
+                           exAllGraph=exAllGraph,
+                           category=category)
 
 # Import DB Route
 # On successful import, redirect to dashboard
