@@ -41,6 +41,62 @@
             </p>
         </div>
     </div>
+    <!-- If accounts found, list them in a table -->
+    {% if accounts %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Your Accounts at a glance</h3>
+        </div>
+        <div class="panel-body">
+            {% if networth %}<h4>
+                <small>Networth</small>
+                <span class="label label-default">
+                    &pound;&nbsp;{{ networth }}
+                </span></h4><br>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Account</th>
+                            <th>Balance</th>
+                            <th>Last Operated</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                        {% if 'Current' in account[3] %}
+                            {% set trbgcolor = "#F1F6FA" %}
+                        {% elif 'Savings' in account[3] %}
+                            {% set trbgcolor = "#EBF2EA" %}
+                        {% elif 'Credit Card' in account[3] %}
+                            {% set trbgcolor = "#FBF1EF" %}
+                        {% endif %}
+                        <tr bgcolor="{{ trbgcolor }}">
+                            <td>
+                                <a
+                                    href="">
+                                    {{ account[0] }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if 'Credit Card' in account[3] %}
+                                <font color="red">&pound;&nbsp;{{ '%0.2f' % account[1]|float }}</font>
+                                {% else %}
+                                &pound;&nbsp;{{ '%0.2f' % account[1]|float }}
+                                {% endif %}
+                            </td>
+                            <td>{{ account[2] }}</td>
+                            <td>{{ account[3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 

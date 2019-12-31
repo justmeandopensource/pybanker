@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
+from helper_modules.dbHelper import getAccounts
 import os
 
 # Initialize Flask Object
@@ -27,7 +28,8 @@ def dashboard():
     category = ""
     if 'category' in request.args:
         category = request.args['category']
-    return render_template('dashboard.html', category=category)
+    accounts = getAccounts()
+    return render_template('dashboard.html', accounts=accounts, category=category)
 
 # Import DB Route
 # On successful import, redirect to dashboard
