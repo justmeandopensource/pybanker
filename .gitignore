@@ -15,4 +15,4 @@ flask-web/.venv
 .vscode
 flask-web/**/__pycache__
 flask-web/**/*.pyc
-flask-web/data
+flask-web/data/db/*.db
