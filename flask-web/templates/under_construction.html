@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+{% include "navbar_initial.html" %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2>Welcome to PyBanker v1.0</h2>
+            <img src="{{ url_for('static', filename='images/oops.jpg') }}" />
+            <br><br><br>
+            <p class="lead">The page you are looking for is <em><strong>under construction or not yet
+                        implemented</strong></em></p>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+{% endblock %}
+{% block footer %}
+{% include "footer.html" %}
+{% endblock %}

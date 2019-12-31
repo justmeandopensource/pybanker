@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyBanker Personal Finance</title>
+
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/mybanker-custom.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='images/favicon.ico') }}" rel="shortcut icon">
+
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });
+      $("#datepicker").datepicker("setDate", (new Date()));
+    });
+  </script>
+  <script type="text/javascript">
+    $(function () {
+      $("#datepicker1").datepicker({ dateFormat: "yy-mm-dd" });
+      $("#datepicker1").datepicker("setDate", (new Date()));
+    });
+  </script>
+
+</head>
+
+<body>
+
+  {% block navbar %} {% endblock %}
+
+  {% block body %} {% endblock %}
+
+  {% block footer %} {% endblock %}
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+
+</html>
