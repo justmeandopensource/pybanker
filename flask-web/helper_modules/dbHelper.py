@@ -1,6 +1,9 @@
 from flask import current_app as app
 import sqlite3
 import os
+from operator import itemgetter
+import calendar
+
 
 #DATABASE = os.path.join(app.config['SQLITE_DB_DIR'], app.config['SQLITE_DB_FILE'])
 DATABASE = 'data/db/pybanker.db'
@@ -350,6 +353,123 @@ def getAllCategoryStatsForMonth(month):
             GROUP BY category
             ORDER BY debit DESC
             """ % advQuery
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Get category stats for specific category
+
+
+def getCategoryStats(category, period="YEAR_MONTH"):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    optype = "debit"
+    opdateFormat = ""
+    if getCategoryType(category) == "IN":
+        optype = "credit"
+    if period == 'YEAR_MONTH':
+        opdateFormat = "STRFTIME('%Y%m', opdate)"
+    else:
+        opdateFormat = "STRFTIME('%Y', opdate)"
+
+    query = """
+            SELECT {0} AS period, SUM({1}) AS {1}
+            FROM transactions
+            WHERE category = '{2}'
+                AND account NOT IN ({3})
+                AND category NOT IN ('TRANSFER IN','TRANSFER OUT')
+            GROUP BY period
+            ORDER BY period
+            """.format(opdateFormat, optype, category, getIgnoredAccounts())
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Do some maths to get more detailed category stats
+
+
+def getDetailedCategoryStats(data, period="YEAR_MONTH"):
+    if data is None:
+        return None
+    else:
+        # Find total spent in this category since beginning
+        totalSpent = sum(item[1] for item in data)
+        totalSpent = "%.2f" % totalSpent
+        periodAvg = float(totalSpent) / float(len(data))
+        periodAvg = "%.2f" % periodAvg
+        sortedData = sorted(data, key=itemgetter(1))
+        if period == "YEAR_MONTH":
+            lowestPeriod = "%s %s" % (
+                calendar.month_name[int(sortedData[0][0]) % 100], str(sortedData[0][0])[:-2])
+            highestPeriod = "%s %s" % (
+                calendar.month_name[int(sortedData[-1][0]) % 100], str(sortedData[-1][0])[:-2])
+        else:
+            lowestPeriod = sortedData[0][0]
+            highestPeriod = sortedData[-1][0]
+        lowest = [lowestPeriod, "%.2f" % sortedData[0][1]]
+        highest = [highestPeriod, "%.2f" % sortedData[-1][1]]
+        categoryStatsData = [totalSpent, periodAvg, highest, lowest]
+        return categoryStatsData
+
+# Get category stats for each year in a separate list for all years
+# It will be list of lists
+
+
+def getCategoryStatsAllYears(category):
+    years = getTransactionYearsCategory(category)
+    data = []
+    if years:
+        for year in years:
+            data.append(getCategoryStatsForYear(category, year[0]))
+        return data
+    else:
+        return None
+
+# Get category stats for specific category for specific user for specific year for dot graph
+
+
+def getCategoryStatsForYear(category, year):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    optype = "debit"
+    if getCategoryType(category) == "IN":
+        optype = "credit"
+
+    query = """
+            SELECT SUM_DATA.year, COALESCE(SUM_DATA.{0}, 0.00) AS {0}
+            FROM months
+            LEFT JOIN (
+                SELECT STRFTIME('%Y', opdate) AS year, STRFTIME('%m', opdate) AS month, SUM({0}) AS {0}
+                FROM transactions
+                WHERE STRFTIME('%Y', opdate) = '{1}'
+                    AND category = '{2}'
+                    AND category NOT IN ('TRANSFER IN','TRANSFER OUT')
+                    AND account NOT IN ({3})
+                GROUP BY STRFTIME('%m', opdate)
+            ) SUM_DATA
+            ON months.name = SUM_DATA.month
+            ORDER BY months.name
+            """.format(optype, year, category, getIgnoredAccounts())
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Get distinct year where we have transactions for the give category
+
+
+def getTransactionYearsCategory(category):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    query = """
+            SELECT DISTINCT(STRFTIME('%Y', opdate))
+            FROM transactions
+            WHERE category = '{0}'
+                AND STRFTIME('%Y', opdate) > 2013
+            ORDER BY STRFTIME('%Y', opdate) DESC
+            """.format(category)
     cursor.execute(query)
     data = cursor.fetchall()
     db.close()

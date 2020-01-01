@@ -4,7 +4,7 @@ from helper_modules.dbHelper import (
     getAccounts, getTransactions, checkTotalAccounts, getCategories, addTransactionsDB,
     searchTransactions, getTransactionsForCategory, getAllCategoryStatsForMonth)
 from helper_modules.reportHelper import (
-    inexTrendAll, inexTrendYearlyAll, exTrendAll)
+    inexTrendAll, inexTrendYearlyAll, exTrendAll, categoryStats, categoryAllGraphDot)
 import os
 from datetime import date, datetime
 
@@ -153,6 +153,33 @@ def curvsprevexpenses():
     return render_template('curvsprevmonthexpenses.html',
                            prevmnthexpenses=prevmnthexpenses,
                            curmnthexpenses=curmnthexpenses)
+
+# Category stats Route
+@app.route('/categorystats', methods=['GET', 'POST'])
+def categorystats():
+    if checkTotalAccounts() == 0:
+        flash("No reports as you don't have any accounts setup. Please start adding your accounts")
+        return redirect(url_for('dashboard', category='alert alert-warning'))
+    categoryStatsGraph = categoryStatsGraphYearly = None
+    categoryStatsData = categoryStatsDataYearly = None
+    categoryAllGraph = None
+    if request.method == "POST":
+        statcategory = request.form['statcategory']
+        categoryStatsGraph, categoryStatsData = categoryStats(
+            statcategory, "YEAR_MONTH")
+        categoryStatsGraphYearly, categoryStatsDataYearly = categoryStats(
+            statcategory, "YEAR")
+        categoryAllGraph = categoryAllGraphDot(statcategory)
+    categoriesRaw = getCategories()
+    categories = ([x for x in categoriesRaw[0] if x != "TRANSFER IN"], [
+                  x for x in categoriesRaw[1] if x != "TRANSFER OUT"])
+    return render_template('categorystats.html',
+                           categories=categories,
+                           categoryStatsGraph=categoryStatsGraph,
+                           categoryStatsData=categoryStatsData,
+                           categoryStatsGraphYearly=categoryStatsGraphYearly,
+                           categoryStatsDataYearly=categoryStatsDataYearly,
+                           categoryAllGraph=categoryAllGraph)
 
 # Under Construction Route
 @app.route('/under_construction')
