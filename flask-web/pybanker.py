@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
 from helper_modules.dbHelper import (
     getAccounts, getTransactions, checkTotalAccounts, getCategories, addTransactionsDB,
-    searchTransactions, getTransactionsForCategory)
+    searchTransactions, getTransactionsForCategory, getAllCategoryStatsForMonth)
 from helper_modules.reportHelper import (
     inexTrendAll, inexTrendYearlyAll, exTrendAll)
 import os
@@ -142,6 +142,17 @@ def search():
     categories = getCategories()
     return render_template('searchtransactions.html', searchresults=searchresults, listresults=listresults, categories=categories, curyear=curyear)
 
+# Current vs Previous month expenses Route
+@app.route('/curvsprevexpenses', methods=['GET'])
+def curvsprevexpenses():
+    if checkTotalAccounts() == 0:
+        flash("No reports as you don't have any accounts setup. Please start adding your accounts")
+        return redirect(url_for('dashboard', category='alert alert-warning'))
+    prevmnthexpenses = getAllCategoryStatsForMonth(1)
+    curmnthexpenses = getAllCategoryStatsForMonth(0)
+    return render_template('curvsprevmonthexpenses.html',
+                           prevmnthexpenses=prevmnthexpenses,
+                           curmnthexpenses=curmnthexpenses)
 
 # Under Construction Route
 @app.route('/under_construction')

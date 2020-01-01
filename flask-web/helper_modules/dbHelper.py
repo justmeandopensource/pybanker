@@ -132,9 +132,9 @@ def getTransactions(accountname, period, year, month):
         if 'thisweek' in period:
             advQuery = "AND STRFTIME('%Y%W', opdate) = STRFTIME('%Y%W', DATE('NOW'))"
         elif 'thismonth' in period:
-            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH') AND DATE('NOW')"
+            advQuery = "AND opdate >= DATE('NOW', 'START OF MONTH')"
         elif 'lastmonth' in period:
-            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW')"
+            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW', 'START OF MONTH')"
         elif 'last5days' in period:
             advQuery = "AND opdate >= DATE('NOW', '-5 DAYS')"
         elif 'last30days' in period:
@@ -298,9 +298,9 @@ def getTransactionsForCategory(category, period=None, year=None, month=None):
         if 'thisweek' in period:
             advQuery = "AND STRFTIME('%Y%W', opdate) = STRFTIME('%Y%W', DATE('NOW'))"
         elif 'thismonth' in period:
-            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH') AND DATE('NOW')"
+            advQuery = "AND opdate >= DATE('NOW', 'START OF MONTH')"
         elif 'lastmonth' in period:
-            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW')"
+            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW', 'START OF MONTH')"
         elif 'last5days' in period:
             advQuery = "AND opdate >= DATE('NOW', '-5 DAYS')"
         elif 'last30days' in period:
@@ -324,4 +324,33 @@ def getTransactionsForCategory(category, period=None, year=None, month=None):
     db.close()
     if len(data) == 0:
         data = None
+    return data
+
+# Get category stats to fill previous and current month expenses in reports
+
+
+def getAllCategoryStatsForMonth(month):
+  # month: 0 - current, 1 - previous
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    advQuery = "1 = 1"
+    if month == 0:
+        advQuery = "opdate >= DATE('NOW', 'START OF MONTH')"
+    else:
+        advQuery = "opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW', 'START OF MONTH')"
+
+    query = """
+            SELECT category, SUM(debit) AS debit
+            FROM transactions
+            WHERE %s
+                AND debit IS NOT NULL
+                AND debit != "0.00"
+                AND category NOT IN ('TRANSFER OUT')
+            GROUP BY category
+            ORDER BY debit DESC
+            """ % advQuery
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
     return data
