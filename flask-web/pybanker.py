@@ -1,7 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
 from helper_modules.dbHelper import (
-    getAccounts, getTransactions, checkTotalAccounts, getCategories, addTransactionsDB)
+    getAccounts, getTransactions, checkTotalAccounts, getCategories, addTransactionsDB,
+    searchTransactions, getTransactionsForCategory)
 from helper_modules.reportHelper import (
     inexTrendAll, inexTrendYearlyAll, exTrendAll)
 import os
@@ -106,6 +107,41 @@ def transferfunds():
         addTransactionsDB(date, notes, amount, "TRANSFER IN", toacc)
         flash("Funds transferred from %s to %s successfully" % (fromacc, toacc))
     return render_template('transferfunds.html', accounts=accounts)
+
+# Search Route
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    searchresults = listresults = None
+    curyear = datetime.now().year
+    if request.method == "POST":
+        if request.form['searchForm'] == "search":
+            keyword = request.form['keyword']
+            searchresults = searchTransactions(keyword)
+        else:
+            category = request.form['listcategory']
+            period = request.form['period']
+            year = request.form['year']
+            month = request.form['month']
+            if category == "Select":
+                flash("Please choose a category")
+            else:
+                if "Select" in period and "Select" in year and "Select" in month:
+                    listresults = getTransactionsForCategory(
+                        category, None, None, None)
+                elif not "Select" in period:
+                    listresults = getTransactionsForCategory(
+                        category, period, None, None)
+                elif not "Select" in year and not "Select" in month:
+                    listresults = getTransactionsForCategory(
+                        category, None, year, month)
+                else:
+                    flash(
+                        "Please choose period carefully. If you didn't select one of the predefined period, you have to select both year and month")
+                if listresults is None:
+                    flash("No transacations to list")
+    categories = getCategories()
+    return render_template('searchtransactions.html', searchresults=searchresults, listresults=listresults, categories=categories, curyear=curyear)
+
 
 # Under Construction Route
 @app.route('/under_construction')

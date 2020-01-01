@@ -140,7 +140,7 @@ def getTransactions(accountname, period, year, month):
         elif 'last30days' in period:
             advQuery = "AND opdate >= DATE('NOW', '-30 DAYS')"
     elif 'selective' in period:
-        advQuery = "AND STRFTIME('%Y', opdate) = {0} AND STRFTIME('%m', opdate) = {1}".format(
+        advQuery = "AND STRFTIME('%Y', opdate) = '{0}' AND STRFTIME('%m', opdate) = '{1}'".format(
             year, month)
 
     query = "SELECT opdate, description, credit, debit, category \
@@ -267,3 +267,61 @@ def getCategoryType(category):
     data = cursor.fetchone()
     db.close()
     return data[0]
+
+# Get transactions for keyword search
+
+
+def searchTransactions(keyword):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    query = """
+            SELECT opdate, description, credit, debit, category, account \
+            FROM transactions \
+            WHERE description like '%%%s%%' \
+            ORDER BY opdate DESC
+            """ % keyword
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Get account transactions for a category
+
+
+def getTransactionsForCategory(category, period=None, year=None, month=None):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    advQuery = limitQuery = ''
+
+    if period:
+        if 'thisweek' in period:
+            advQuery = "AND STRFTIME('%Y%W', opdate) = STRFTIME('%Y%W', DATE('NOW'))"
+        elif 'thismonth' in period:
+            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH') AND DATE('NOW')"
+        elif 'lastmonth' in period:
+            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW')"
+        elif 'last5days' in period:
+            advQuery = "AND opdate >= DATE('NOW', '-5 DAYS')"
+        elif 'last30days' in period:
+            advQuery = "AND opdate >= DATE('NOW', '-30 DAYS')"
+    else:
+        if year and month:
+            advQuery = "AND STRFTIME('%Y', opdate) = '{0}' AND STRFTIME('%m', opdate) = '{1}'".format(
+                year, month)
+        else:
+            limitQuery = "LIMIT 20"
+
+    query = """
+            SELECT opdate, description, credit, debit, account
+            FROM transactions
+            WHERE category = '%s' %s
+            ORDER BY opdate DESC %s
+            """ % (category, advQuery, limitQuery)
+    print(query)
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    if len(data) == 0:
+        data = None
+    return data
