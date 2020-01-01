@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
-from helper_modules.dbHelper import (getAccounts, getTransactions)
+from helper_modules.dbHelper import (
+    getAccounts, getTransactions, checkTotalAccounts, getCategories, addTransactionsDB)
 from helper_modules.reportHelper import (
     inexTrendAll, inexTrendYearlyAll, exTrendAll)
 import os
@@ -66,9 +67,27 @@ def account_transactions(accountname, period):
             year = request.form['year']
             month = request.form['month']
         transactions = getTransactions(accountname, period, year, month)
-        accinfo = getAccounts(accountname)
+        accinfo = getAccounts(account=accountname)
     return render_template('account-transactions.html', accinfo=accinfo, transactions=transactions, curyear=curyear)
 
+# Add a new transaction Route
+@app.route('/addtransaction', methods=['GET', 'POST'])
+def addtransaction():
+    if checkTotalAccounts() == 0:
+        flash("Please add an account first before trying to add a transaction!!")
+        return redirect(url_for('dashboard', category='alert alert-warning'))
+    inc_categories, exp_categories = getCategories()
+    categories = exp_categories + inc_categories
+    accounts = getAccounts(status="Active")
+    if request.method == "POST":
+        account = request.form['account']
+        category = request.form['category']
+        amount = request.form['amount']
+        date = request.form['date']
+        notes = request.form['notes']
+        flash(addTransactionsDB(date, notes, amount,
+                                category, account))
+    return render_template('addtransaction.html', categories=categories, accounts=accounts)
 
 # Under Construction Route
 @app.route('/under_construction')

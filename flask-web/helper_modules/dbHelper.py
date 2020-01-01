@@ -7,18 +7,20 @@ DATABASE = 'data/db/pybanker.db'
 # Get accounts for dashboard table
 
 
-def getAccounts(account='all'):
+def getAccounts(account='all', status='all'):
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    appendquery = ""
+    appendquery = statusquery = ""
     if account != "all":
-        appendquery = "WHERE name = '%s'" % account
+        appendquery = "AND name = '%s'" % account
+    if status != "all":
+        statusquery = "AND status = '%s'" % status
     query = """
-        SELECT name, balance, lastoperated, type, excludetotal
+        SELECT name, balance, lastoperated, type, excludetotal, status
         FROM accounts
-        %s
+        WHERE 1 = 1 %s %s
         ORDER BY type
-        """ % appendquery
+        """ % (appendquery, statusquery)
     cursor.execute(query)
     data = cursor.fetchall()
     db.close()
@@ -151,3 +153,117 @@ def getTransactions(accountname, period, year, month):
     data = cursor.fetchall()
     db.close()
     return data
+
+# Check number of accounts
+
+
+def checkTotalAccounts():
+    accountsTotal = 0
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    query = "SELECT COUNT(*) FROM accounts"
+    cursor.execute(query)
+    accountsTotal = cursor.fetchone()[0]
+    db.close()
+    return accountsTotal
+
+# Get list of categories
+
+
+def getCategories():
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    inc_categories = []
+    exp_categories = []
+
+    cursor.execute('SELECT name FROM categories WHERE type="IN"')
+    for item in cursor.fetchall():
+        inc_categories.append(item[0])
+    cursor.execute('SELECT name FROM categories WHERE type="EX"')
+    for item in cursor.fetchall():
+        exp_categories.append(item[0])
+
+    db.close()
+    return inc_categories, exp_categories
+
+
+# Add transaction
+def addTransactionsDB(date, notes, amount, category, account):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    credit, debit, updatetype = ["NULL", amount, "debit"]
+    if getCategoryType(category) == "IN":
+        credit, debit, updatetype = [amount, "NULL", "credit"]
+
+    query = """
+        INSERT INTO transactions 
+        VALUES('%s', '%s', '%s', %s, %s, '%s')""" % (date, notes, category, credit, debit, account)
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.commit()
+    db.close()
+    if len(data) == 0:
+        if updateAccounts(account, amount, updatetype):
+            returnString = "Transaction added successfully"
+        else:
+            returnString = "Failed to update accounts table. But transaction recorded"
+    else:
+        returnString = str(data[0])
+
+    return returnString
+
+# Update Balance in Accounts table
+
+
+def updateAccounts(name, amount, updatetype):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    sign, operator = ["+", "-"]
+    isassetAcc = checkAccountType(name)
+    if not isassetAcc:
+        sign = "-"
+    if updatetype == "credit":
+        operator = "+"
+
+    query = """UPDATE accounts
+            SET balance = balance %s %s%s, lastoperated = DATE('NOW')
+            WHERE name = '%s'""" % (operator, sign, amount, name)
+    cursor.execute(query)
+    db.commit()
+    db.close()
+    return True
+
+# Get account Type
+
+
+def checkAccountType(account):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    isassetAcc = True
+
+    query = "SELECT type FROM accounts WHERE name = '%s'" % account
+    cursor.execute(query)
+    data = cursor.fetchone()
+
+    db.close()
+
+    if data[0] == "Credit Card":
+        isassetAcc = False
+    return isassetAcc
+
+# Check category type
+
+
+def getCategoryType(category):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    query = "SELECT type FROM categories WHERE name = '%s'" % category
+    cursor.execute(query)
+    data = cursor.fetchone()
+    db.close()
+    return data[0]

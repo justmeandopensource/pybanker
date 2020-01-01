@@ -43,8 +43,10 @@ def inexTrendYearlyAll():
     if inexAllYearlyData:
         for row in inexAllYearlyData:
             labelSeries.append(row[0])
-            income_data.append(round(row[1], 2))
-            expense_data.append(round(row[2], 2))
+            income_data.append(
+                round(row[1], 2) if not row[1] is None else row[1])
+            expense_data.append(
+                round(row[2], 2) if not row[2] is None else row[2])
         chart.x_labels = labelSeries
         chart.add('Income', income_data)
         chart.add('Expense', expense_data)
