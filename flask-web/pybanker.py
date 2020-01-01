@@ -89,6 +89,24 @@ def addtransaction():
                                 category, account))
     return render_template('addtransaction.html', categories=categories, accounts=accounts)
 
+# Transfer funds Route
+@app.route('/transferfunds', methods=['GET', 'POST'])
+def transferfunds():
+    if checkTotalAccounts() == 0:
+        flash("Please add some accounts first before trying to transfer funds!!")
+        return redirect(url_for('dashboard', category='alert alert-warning'))
+    accounts = getAccounts(status="Active")
+    if request.method == "POST":
+        fromacc = request.form['fromaccount']
+        toacc = request.form['toaccount']
+        amount = request.form['amount']
+        date = request.form['date']
+        notes = request.form['notes']
+        addTransactionsDB(date, notes, amount, "TRANSFER OUT", fromacc)
+        addTransactionsDB(date, notes, amount, "TRANSFER IN", toacc)
+        flash("Funds transferred from %s to %s successfully" % (fromacc, toacc))
+    return render_template('transferfunds.html', accounts=accounts)
+
 # Under Construction Route
 @app.route('/under_construction')
 def under_construction():
