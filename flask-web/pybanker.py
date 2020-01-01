@@ -1,9 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
-from helper_modules.dbHelper import getAccounts
+from helper_modules.dbHelper import (getAccounts, getTransactions)
 from helper_modules.reportHelper import (
     inexTrendAll, inexTrendYearlyAll, exTrendAll)
 import os
+from datetime import date, datetime
 
 # Initialize Flask Object
 app = Flask(__name__)
@@ -54,6 +55,20 @@ def importdb():
             app.config['SQLITE_DB_DIR'], app.config['SQLITE_DB_FILE']))
         flash('Database successfully imported')
         return redirect(url_for('dashboard', category='alert alert-success'))
+
+# Account Transactions Route
+@app.route('/account/<accountname>/<period>', methods=['GET', 'POST'])
+def account_transactions(accountname, period):
+    accinfo = transactions = year = month = None
+    curyear = datetime.now().year
+    if accountname and period:
+        if request.method == "POST":
+            year = request.form['year']
+            month = request.form['month']
+        transactions = getTransactions(accountname, period, year, month)
+        accinfo = getAccounts(accountname)
+    return render_template('account-transactions.html', accinfo=accinfo, transactions=transactions, curyear=curyear)
+
 
 # Under Construction Route
 @app.route('/under_construction')

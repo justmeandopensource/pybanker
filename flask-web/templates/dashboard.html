@@ -75,7 +75,8 @@
                         {% endif %}
                         <tr bgcolor="{{ trbgcolor }}">
                             <td>
-                                <a href="">
+                                <a
+                                    href="{{ url_for('account_transactions', accountname=account[0], period='normal') }}">
                                     {{ account[0] }}
                                 </a>
                             </td>

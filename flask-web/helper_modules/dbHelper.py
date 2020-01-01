@@ -16,8 +16,8 @@ def getAccounts(account='all'):
     query = """
         SELECT name, balance, lastoperated, type, excludetotal
         FROM accounts
-        ORDER BY type
         %s
+        ORDER BY type
         """ % appendquery
     cursor.execute(query)
     data = cursor.fetchall()
@@ -109,6 +109,44 @@ def getEx():
             GROUP BY STRFTIME('%Y%m', opdate)
             ORDER BY STRFTIME('%Y%m', opdate)
             """.format(getIgnoredAccounts())
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Get account transactions
+
+
+def getTransactions(accountname, period, year, month):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    advQuery = limitQuery = ''
+
+    if 'normal' in period:
+        limitQuery = 'LIMIT 20'
+
+    if 'PRE_' in period:
+        if 'thisweek' in period:
+            advQuery = "AND STRFTIME('%Y%W', opdate) = STRFTIME('%Y%W', DATE('NOW'))"
+        elif 'thismonth' in period:
+            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH') AND DATE('NOW')"
+        elif 'lastmonth' in period:
+            advQuery = "AND opdate BETWEEN DATE('NOW', 'START OF MONTH', '-1 MONTH') AND DATE('NOW')"
+        elif 'last5days' in period:
+            advQuery = "AND opdate >= DATE('NOW', '-5 DAYS')"
+        elif 'last30days' in period:
+            advQuery = "AND opdate >= DATE('NOW', '-30 DAYS')"
+    elif 'selective' in period:
+        advQuery = "AND STRFTIME('%Y', opdate) = {0} AND STRFTIME('%m', opdate) = {1}".format(
+            year, month)
+
+    query = "SELECT opdate, description, credit, debit, category \
+            FROM transactions \
+            WHERE account = '%s' %s \
+            ORDER BY opdate DESC %s" \
+            % (accountname, advQuery, limitQuery)
+
     cursor.execute(query)
     data = cursor.fetchall()
     db.close()
