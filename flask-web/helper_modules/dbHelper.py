@@ -37,21 +37,20 @@ def getInEx(year, period="selective"):
     cursor = db.cursor()
 
     if period == "selective":
-        # TODO query not tested
         query = """
             SELECT name, COALESCE(SUM_DATA.credit, 0.00) AS credit, COALESCE(SUM_DATA.debit, 0.00) AS debit
             FROM months
             LEFT JOIN (
-                SELECT MONTH(opdate) AS mnth, SUM(credit) AS credit, SUM(debit) AS debit
+                SELECT STRFTIME('%m', opdate) AS mnth, SUM(credit) AS credit, SUM(debit) AS debit
                 FROM transactions
-                WHERE YEAR(opdate) = %s
-                    AND account NOT IN (%s)
+                WHERE STRFTIME('%Y', opdate) = '{0}'
+                    AND account NOT IN ({1})
                     AND category NOT IN ('OPENING BALANCE','TRANSFER IN','TRANSFER OUT')
-                GROUP BY MONTH(opdate)
+                GROUP BY STRFTIME('%m', opdate)
             ) SUM_DATA
             ON months.name = SUM_DATA.mnth
             ORDER BY months.name
-            """ % (year, getIgnoredAccounts())
+            """.format(year, getIgnoredAccounts())
     else:
         query = """
             SELECT STRFTIME('%Y%m', opdate) AS period, printf('%0.2f',SUM(credit)) AS credit, printf('%0.2f', SUM(debit)) AS debit
@@ -348,11 +347,12 @@ def getAllCategoryStatsForMonth(month):
             FROM transactions
             WHERE %s
                 AND debit IS NOT NULL
-                AND debit != "0.00"
+                AND debit NOT in ("", "0.00")
                 AND category NOT IN ('TRANSFER OUT')
             GROUP BY category
             ORDER BY debit DESC
             """ % advQuery
+    print(query)
     cursor.execute(query)
     data = cursor.fetchall()
     db.close()
@@ -470,6 +470,54 @@ def getTransactionYearsCategory(category):
                 AND STRFTIME('%Y', opdate) > 2013
             ORDER BY STRFTIME('%Y', opdate) DESC
             """.format(category)
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Get category stats to fill previous and current month expenses in reports
+
+
+def getAllCategoryStatsForYear(year):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    query = """
+            SELECT category, SUM(debit) AS debit
+            FROM transactions
+            WHERE STRFTIME('%Y', opdate) = '{0}'
+                AND debit IS NOT NULL
+                AND debit NOT in ("", "0.00")
+                AND category NOT IN ('TRANSFER OUT')
+            GROUP BY category
+            ORDER BY debit DESC
+            """.format(year)
+    print(query)
+    cursor.execute(query)
+    data = cursor.fetchall()
+    db.close()
+    return data
+
+# Get expense stats for a specific year
+
+
+def getExpenseStats(year):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    query = """
+            SELECT category, SUM(debit) AS debit
+            FROM transactions t1
+            INNER JOIN (
+              SELECT name
+              FROM categories
+              WHERE type = 'EX' AND name NOT IN ('TRANSFER OUT')
+            ) t2
+            ON t1.category = t2.name
+            WHERE STRFTIME('%Y', t1.opdate) = '{0}' AND account NOT IN ({1})
+            GROUP BY t1.category
+            ORDER BY debit DESC
+            """.format(year, getIgnoredAccounts())
     cursor.execute(query)
     data = cursor.fetchall()
     db.close()

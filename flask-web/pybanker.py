@@ -2,9 +2,11 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from helper_modules.miscHelper import dbFilePresent
 from helper_modules.dbHelper import (
     getAccounts, getTransactions, checkTotalAccounts, getCategories, addTransactionsDB,
-    searchTransactions, getTransactionsForCategory, getAllCategoryStatsForMonth)
+    searchTransactions, getTransactionsForCategory, getAllCategoryStatsForMonth,
+    getAllCategoryStatsForYear)
 from helper_modules.reportHelper import (
-    inexTrendAll, inexTrendYearlyAll, exTrendAll, categoryStats, categoryAllGraphDot)
+    inexTrendAll, inexTrendYearlyAll, exTrendAll, categoryStats, categoryAllGraphDot,
+    inexTrend, expenseStats, expenseStatsBar)
 import os
 from datetime import date, datetime
 
@@ -180,6 +182,26 @@ def categorystats():
                            categoryStatsGraphYearly=categoryStatsGraphYearly,
                            categoryStatsDataYearly=categoryStatsDataYearly,
                            categoryAllGraph=categoryAllGraph)
+
+# Year at a glance Route
+@app.route('/yearataglance', methods=['GET', 'POST'])
+def yearataglance():
+    if checkTotalAccounts() == 0:
+        flash("No reports as you don't have any accounts setup. Please start adding your accounts")
+        return redirect(url_for('dashboard', category='alert alert-warning'))
+    year = curyear = date.today().year
+    if request.method == "POST":
+        year = request.form['year']
+    yearexpenses = getAllCategoryStatsForYear(year)
+    inexGraph = inexTrend(year)
+    expenseGraph = expenseStats(year)
+    expenseBarGraph = expenseStatsBar(year)
+    return render_template('yearataglance.html',
+                           inexGraph=inexGraph,
+                           expenseGraph=expenseGraph,
+                           expenseBarGraph=expenseBarGraph,
+                           yearexpenses=yearexpenses,
+                           curyear=curyear, year=year)
 
 # Under Construction Route
 @app.route('/under_construction')

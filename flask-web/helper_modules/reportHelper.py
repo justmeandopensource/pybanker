@@ -3,7 +3,8 @@ import pygal
 from pygal.style import LightColorizedStyle
 import calendar
 from helper_modules.dbHelper import (
-    getInEx, getInExYearly, getEx, getCategoryStats, getDetailedCategoryStats, getCategoryStatsAllYears)
+    getInEx, getInExYearly, getEx, getCategoryStats, getDetailedCategoryStats, getCategoryStatsAllYears,
+    getExpenseStats)
 from decimal import Decimal
 
 # Generate line chart for income expense trend since beginning
@@ -119,6 +120,56 @@ def categoryAllGraphDot(category):
                 expenses = [round(x[1], 2) for x in row]
                 expenses.append(int(sum(expenses)/len(expenses)))
                 chart.add('%s' % next(iter(year)), expenses)
+    else:
+        chart.add('line', [])
+    return chart.render_data_uri()
+
+
+# Generate bar chart for income/expense for the selected year
+def inexTrend(year):
+    chart = pygal.Bar(legend_at_bottom=True, show_y_labels=False,
+                      pretty_print=True, tooltip_border_radius=10, height=750)
+    chart.x_labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
+                      'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    income_data = []
+    expense_data = []
+    inexdata = getInEx(year)
+    if inexdata:
+        for row in inexdata:
+            income_data.append(
+                round(row[1], 2) if not row[1] is None else row[1])
+            expense_data.append(
+                round(row[2], 2) if not row[2] is None else row[2])
+        chart.add('Income', income_data)
+        chart.add('Expense', expense_data)
+    else:
+        chart.add('line', [])
+    return chart.render_data_uri()
+
+# Generate pie chart for expense stats for the selected year
+
+
+def expenseStats(year):
+    chart = pygal.Pie(legend_at_bottom=True,
+                      tooltip_border_radius=10, height=750, inner_radius=.4)
+    expensedata = getExpenseStats(year)
+    if expensedata:
+        for row in expensedata:
+            chart.add(row[0], round(row[1], 2))
+    else:
+        chart.add('line', [])
+    return chart.render_data_uri()
+
+# Generate bar chart for expense stats for the selected year
+
+
+def expenseStatsBar(year):
+    chart = pygal.HorizontalBar(
+        legend_at_bottom=True, tooltip_border_radius=10, height=750)
+    expensedata = getExpenseStats(year)
+    if expensedata:
+        for row in expensedata:
+            chart.add(row[0], row[1])
     else:
         chart.add('line', [])
     return chart.render_data_uri()
