@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+
+  pybanker:
+    image: wenkatn/pybanker:dev-0.1
+    container_name: pybanker
+    ports:
+      - '8888:8888'
