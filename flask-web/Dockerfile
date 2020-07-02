@@ -1,4 +1,5 @@
-FROM python:3.8
+FROM python:3.8-alpine
+RUN apk add --no-cache git
 RUN git clone -b dev https://github.com/justmeandopensource/pybanker /pybanker
 WORKDIR /pybanker/flask-web
 RUN pip install --no-cache-dir -r requirements.cfg

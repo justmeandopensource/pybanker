@@ -3,7 +3,9 @@ version: "3"
 services:
 
   pybanker:
-    image: wenkatn/pybanker:dev-0.1
+    image: wenkatn/pybanker:dev-1.0
     container_name: pybanker
+    volumes:
+      - './data:/pybanker/flask-web/data/db'
     ports:
       - '8888:8888'
